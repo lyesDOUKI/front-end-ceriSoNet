@@ -9,6 +9,7 @@ export class AppComponent implements OnInit{
   
   title = 'ceri-so-net';
   ngOnInit(): void {
-    console.log('Hello World!');
+    console.log("Hello World!");
+    console.log("le serveur est sur le port : ", window.location.port);
   }
 }
