@@ -1,7 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import {HttpClient } from '@angular/common/http';
 
+import { LoginService} from '../services/login.service';
+import { User } from '../models/user';
+import {map, catchError} from 'rxjs/operators';
+import { of } from 'rxjs';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -9,16 +12,25 @@ import {HttpClient } from '@angular/common/http';
 })
 export class LoginComponent {
 
+  
   @ViewChild('login') login!: NgForm;
 
   info : any = {};
-  private url = 'https://pedago.univ-avignon.fr:3205/';
-  constructor(private http : HttpClient) { }
+  
+  constructor(private loginService : LoginService) { }
 
   onSubmit() {
-    this.http.post(this.url + 'login', this.info).subscribe(res => {
-      console.log(res);
-    });
-    
+    this.loginService.login(this.info.username, this.info.password).subscribe(
+      Response => {
+        console.log(Response.status);
+        if(Response.status == 200){
+          const user : User = new User(Response.body);
+          console.log(user instanceof User);
+          console.log(user.identifiant);
+          console.log("Mr " + user.fullName());
+        }
+      }
+    );
+   
   }
 }
