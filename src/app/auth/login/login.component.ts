@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import {HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -7,4 +9,16 @@ import { Component } from '@angular/core';
 })
 export class LoginComponent {
 
+  @ViewChild('login') login!: NgForm;
+
+  info : any = {};
+  private url = 'https://pedago.univ-avignon.fr:3205/';
+  constructor(private http : HttpClient) { }
+
+  onSubmit() {
+    this.http.post(this.url + 'login', this.info).subscribe(res => {
+      console.log(res);
+    });
+    
+  }
 }
