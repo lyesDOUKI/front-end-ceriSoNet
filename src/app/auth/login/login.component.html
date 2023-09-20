@@ -1,32 +1,32 @@
-<h2><p class="text-center mt-5">login route works!</p></h2>
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="text-center">Bienvenue sur CeriSoNet</h2>
-                </div>
-                <div class="card-body">
-                    <form #login="ngForm" (ngSubmit)="onSubmit()">
-                        <div class="mb-3">
-                            <label for="username" class="form-label">Nom d'utilisateur</label>
-                            <input type="text" id="username" name ="username" [(ngModel)]="info.username" class="form-control" placeholder="Entrez votre nom d'utilisateur" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Mot de passe</label>
-                            <input type="password" id="password" name="password" [(ngModel)]="info.password" class="form-control" placeholder="Entrez votre mot de passe" required>
-                        </div>
-                        <div class="text-center">
-                            <button class="btn btn-success btn-sm">Se connecter</button>
-                        </div>
-                        
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="text-center mt-5">
-            <img src="https://lia.univ-avignon.fr/wp-content/uploads/sites/40/2021/09/Logo-CERI-horizontal-avec-texte.png" alt="CERI" width="700">
-        </div>
-    </div>
+<div class="text-end mt-3 me-5">
+    <button class="btn btn-outline-info btn-lg rounded-pill shadow" (click)="openLoginModal()">
+        <i class="bi bi-person"></i> Se connecter
+      </button>      
 </div>
 
+<div class="text-center mt5" *ngIf="isLoggedIn && user != null">
+    <h2>Bienvenue {{user.identifiant}}</h2>
+</div>
+<ng-template #loginModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Se connecter</h4>
+      
+    </div>
+    <div class="modal-body">
+        <form #login="ngForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+                <label for="username" class="form-label">Nom d'utilisateur</label>
+                <input type="text" id="username" name ="username" [(ngModel)]="info.username" class="form-control" placeholder="Entrez votre nom d'utilisateur" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Mot de passe</label>
+                <input type="password" id="password" name="password" [(ngModel)]="info.password" class="form-control" placeholder="Entrez votre mot de passe" required>
+            </div>
+            <div class="text-center">
+                <button class="btn btn-success btn-sm">Se connecter</button>
+            </div>
+            
+        </form>
+    </div>
+  </ng-template>
+    
