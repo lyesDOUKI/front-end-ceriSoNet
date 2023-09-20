@@ -1,10 +1,14 @@
-<div class="text-end mt-3 me-5">
+<div class="text-end mt-3 me-5" *ngIf="!isLoggedIn">
     <button class="btn btn-outline-info btn-lg rounded-pill shadow" (click)="openLoginModal()">
         <i class="bi bi-person"></i> Se connecter
       </button>      
 </div>
-
-<div class="text-center mt5" *ngIf="isLoggedIn && user != null">
+<div class="text-end mt-3 me-5" *ngIf="isLoggedIn">
+    <button class="btn btn-outline-info btn-lg rounded-pill shadow" (click)="openLoginModal()">
+        <i class="bi bi-person"></i> Se Deconnecter
+      </button>      
+</div>
+<div class="text-center mt-5" *ngIf="isLoggedIn && user != null">
     <h2>Bienvenue {{user.identifiant}}</h2>
 </div>
 <ng-template #loginModal let-modal>
@@ -23,7 +27,7 @@
                 <input type="password" id="password" name="password" [(ngModel)]="info.password" class="form-control" placeholder="Entrez votre mot de passe" required>
             </div>
             <div class="text-center">
-                <button class="btn btn-success btn-sm">Se connecter</button>
+                <button class="btn btn-info btn-lg rounded-pill shadow">Se connecter</button>
             </div>
             
         </form>

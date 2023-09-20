@@ -34,6 +34,9 @@ export class LoginComponent {
           console.log(this.user.identifiant);
           console.log("Mr " + this.user.fullName());
           this.modalRef?.close();
+          this.toastr.success("Bienvenue "+ this.user.identifiant, '',{
+            timeOut: 2000
+          });
         }
       },
       error : error => {
