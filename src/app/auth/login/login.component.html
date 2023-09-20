@@ -13,9 +13,11 @@
 </div>
 <ng-template #loginModal let-modal>
     <div class="modal-header">
-      <h4 class="modal-title">Se connecter</h4>
-      
+        <div class="col-12 text-center">
+            <h4 class="modal-title fw-bold text-secondary fst-italic">CeriSoNet</h4>
+        </div>
     </div>
+    
     <div class="modal-body">
         <form #login="ngForm" (ngSubmit)="onSubmit()">
             <div class="mb-3">
@@ -31,6 +33,10 @@
             </div>
             
         </form>
+        <div class="text-center mt-4">
+            <img src="https://lia.univ-avignon.fr/wp-content/uploads/sites/40/2021/09/Logo-CERI-horizontal-avec-texte.png" 
+            alt="CERI" width="400">
+        </div>
     </div>
   </ng-template>
     
