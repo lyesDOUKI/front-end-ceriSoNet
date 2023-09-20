@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 import { LoginService} from '../services/login.service';
@@ -20,19 +20,21 @@ export class LoginComponent {
   user ?: User
   isLoggedIn : boolean = false;
   modalRef?: NgbModalRef;
-  constructor(private loginService : LoginService, private modalService : NgbModal
-    , private toastr : ToastrService) { }
+  constructor(private loginService : LoginService,
+     private modalService : NgbModal,
+     private toastr : ToastrService)
+      {}
 
   onSubmit() {
     this.loginService.login(this.info.username, this.info.password).subscribe({
       next :Response => {
-        console.log(Response.status);
+        console.log("status : " + Response.status);
         if(Response.status == 200){
           this.isLoggedIn = true;
           this.user = new User(Response.body);
-          console.log(this.user instanceof User);
-          console.log(this.user.identifiant);
-          console.log("Mr " + this.user.fullName());
+          console.log("is instance of User : ", this.user instanceof User);
+          console.log("identfiant : " + this.user.identifiant);
+          console.log("fullname :  " + this.user.fullName());
           this.modalRef?.close();
           this.toastr.success("Bienvenue "+ this.user.identifiant, '',{
             timeOut: 2000
