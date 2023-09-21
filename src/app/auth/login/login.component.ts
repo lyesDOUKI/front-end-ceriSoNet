@@ -1,7 +1,8 @@
-import { Component, OnDestroy, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-
+import {UserShareService} from '../services/user-share.service'
 import { LoginService} from '../services/login.service';
+
 import { User } from '../models/user';
 import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
@@ -22,7 +23,8 @@ export class LoginComponent {
   modalRef?: NgbModalRef;
   constructor(private loginService : LoginService,
      private modalService : NgbModal,
-     private toastr : ToastrService)
+     private toastr : ToastrService,
+     private userShare : UserShareService )
       {}
 
   onSubmit() {
@@ -32,6 +34,7 @@ export class LoginComponent {
         if(Response.status == 200){
           this.isLoggedIn = true;
           this.user = new User(Response.body);
+          this.userShare.setUser(this.user);
           console.log("is instance of User : ", this.user instanceof User);
           console.log("identfiant : " + this.user.identifiant);
           console.log("fullname :  " + this.user.fullName());

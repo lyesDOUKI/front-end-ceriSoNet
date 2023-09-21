@@ -5,10 +5,12 @@ import {FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { UserComponent } from './user/user.component';
 
 @NgModule({
   declarations: [
-    LoginComponent
+    LoginComponent,
+    UserComponent
   ],
   imports: [
     CommonModule,
@@ -18,7 +20,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserAnimationsModule
   ],
   exports : [
-    LoginComponent
+    LoginComponent,
+    UserComponent
   ]
 })
 export class AuthModule { }
