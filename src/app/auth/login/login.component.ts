@@ -16,6 +16,7 @@ export class LoginComponent {
   
   @ViewChild('login') login!: NgForm;
   @ViewChild('loginModal') loginModal!: NgbModal;
+  @ViewChild('userModal') userModal!: NgbModal;
 
   info : any = {};
   user ?: User
@@ -39,23 +40,35 @@ export class LoginComponent {
           console.log("identfiant : " + this.user.identifiant);
           console.log("fullname :  " + this.user.fullName());
           this.modalRef?.close();
-          this.toastr.success("Bienvenue "+ this.user.identifiant, '',{
-            timeOut: 2000
-          });
+          this.userShare.triggerFormSubmit();
+          
         }
       },
       error : error => {
         console.log("identfiant ou mot de passe incorrect " + error.error);
-        this.toastr.error("identfiant ou mot de passe incorrect", '',{
-          timeOut: 2000
-        });
-        
+        this.userShare.setUser(undefined);
+        this.modalRef?.close();
+        this.userShare.triggerFormSubmit();
       }
+      
   });
    
+  }
+
+  onLogout()
+  {
+    this.loginService.logout().subscribe(
+      () => {
+        console.log("logout");
+        this.isLoggedIn = false;
+        this.userShare.setUser(undefined);
+      });
   }
   
   openLoginModal() {
     this.modalRef = this.modalService.open(this.loginModal, { centered: true });
+  }
+  openUserModal() {
+    this.modalRef = this.modalService.open(this.userModal, { centered: true });
   }
 }

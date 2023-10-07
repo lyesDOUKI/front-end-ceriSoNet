@@ -1,0 +1,17 @@
+<!--
+<div class="alert alert-info" *ngIf="!isSuccess">
+  <div class="container">
+      <b>Info alert:</b> You've got some friends nearby, stop looking at your phone and find them...
+  </div>
+</div>
+-->
+<div class="alert alert-success" *ngIf="isSuccess">
+  <div class="container">
+      <b>connexion réussie:</b> Yuhuuu! Bienvenue sur CeriSoNet {{user?.identifiant}}!
+  </div>
+</div>
+<div class="alert alert-danger" *ngIf="isFailedConnect">
+   <div class="container">
+       <b>Erreur de connexion:</b> nom d'utilisateur ou mot de passe incorrect!
+  </div>
+</div>

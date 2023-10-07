@@ -1,12 +1,19 @@
-<div class="text-end mt-3 me-5" *ngIf="!isLoggedIn">
-    <button class="btn btn-outline-info btn-lg rounded-pill shadow" (click)="openLoginModal()">
-        <i class="bi bi-person"></i> Se connecter
-      </button>      
-</div>
-<div class="text-end mt-3 me-5" *ngIf="isLoggedIn">
-    <button class="btn btn-outline-info btn-lg rounded-pill shadow" (click)="openLoginModal()">
-        <i class="bi bi-person"></i> Se Deconnecter
-      </button>      
+<div class="text-end mt-3 me-5 d-flex justify-content-between">
+    <div *ngIf="!isLoggedIn">
+        <button class="btn btn-outline-info btn-lg rounded-pill shadow" (click)="openLoginModal()">
+            <i class="bi bi-person"></i> Se connecter
+        </button>
+    </div>
+    <div *ngIf="isLoggedIn">
+        
+        <button class="btn btn-outline-info btn-lg rounded-pill shadow me-3" (click)="openUserModal()">
+            <i class="bi bi-person"></i> Profil
+        </button>
+
+        <button class="btn btn-outline-info btn-lg rounded-pill shadow" (click)="onLogout()">
+            <i class="bi bi-person"></i> Se Déconnecter
+        </button>
+    </div>
 </div>
 
 <ng-template #loginModal let-modal>
@@ -34,6 +41,21 @@
         <div class="text-center mt-4">
             <img src="https://lia.univ-avignon.fr/wp-content/uploads/sites/40/2021/09/Logo-CERI-horizontal-avec-texte.png" 
             alt="CERI" width="400">
+        </div>
+    </div>
+  </ng-template>
+<ng-template #userModal let-modal>
+    <div class="modal-header">
+        <div class="col-12 text-center">
+            <h4 class="modal-title fw-bold text-secondary fst-italic">Profil</h4>
+        </div>
+    </div>
+    
+    <div class="modal-body">
+        <div class="text-center" *ngIf="user != null">
+            <img src="{{user.avatar}}" alt="avatar" class="img-fluid rounded-circle" style="width: 200px;">
+            <h5 class="my-3">{{user.identifiant}}</h5>
+            <p class="text-muted mb-1">{{user.fullName()}}</p>
         </div>
     </div>
   </ng-template>

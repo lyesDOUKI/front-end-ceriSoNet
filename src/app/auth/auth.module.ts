@@ -6,11 +6,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserComponent } from './user/user.component';
+import { BandeauComponent } from './bandeau/bandeau.component';
 
 @NgModule({
   declarations: [
     LoginComponent,
-    UserComponent
+    UserComponent,
+    BandeauComponent,
   ],
   imports: [
     CommonModule,
@@ -21,7 +23,8 @@ import { UserComponent } from './user/user.component';
   ],
   exports : [
     LoginComponent,
-    UserComponent
+    UserComponent,
+    BandeauComponent,
   ]
 })
 export class AuthModule { }

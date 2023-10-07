@@ -17,8 +17,20 @@ export class LoginService {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       }),
-      observe : 'response' as 'response'
+      observe : 'response' as 'response',
+      withCredentials: true
     };
     return this.http.post<HttpResponse<User>>(this.URI_NODE_API + 'login', dataToSend, options);
+  }
+  logout()
+  {
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      observe : 'response' as 'response',
+      withCredentials: true
+    };
+    return this.http.post(this.URI_NODE_API + 'logout',{}, options);
   }
 }

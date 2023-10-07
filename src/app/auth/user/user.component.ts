@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { User } from '../models/user';
 import { UserShareService } from '../services/user-share.service';
+import { BandeauComponent } from 'src/app/auth/bandeau/bandeau.component';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -8,15 +9,25 @@ import { UserShareService } from '../services/user-share.service';
 })
 export class UserComponent {
 
-  user !: Promise<User>; 
   realUser ?: User;
-  constructor(private userShare: UserShareService) {}
-
-  ngOnInit() : void {
-    this.userShare.getUser().subscribe(user => {
-      this.realUser = user;
-      console.log(this.realUser?.identifiant);
-    })
+  lastLoginDateTime: string | null = null;
+  constructor(private userShare: UserShareService) {
+    this.lastLoginDateTime = this.getLastLoginDateTime();
+    this.updateLastLoginDateTime();
   }
 
+  getLastLoginDateTime(): string | null {
+    return localStorage.getItem('lastLoginDateTime');
+  }
+
+  updateLastLoginDateTime() {
+    const currentDate = new Date();
+    const formattedDate = currentDate.toLocaleString();
+    localStorage.setItem('lastLoginDateTime', formattedDate);
+  }
+  ngOnInit() : void {
+   this.userShare.getUser().subscribe((user) => {
+     this.realUser = user;
+   });
+  }
 }

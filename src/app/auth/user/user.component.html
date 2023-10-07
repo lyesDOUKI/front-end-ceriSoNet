@@ -1,8 +1,5 @@
-<div class="text-center" *ngIf="realUser != null">
-    <img src="{{realUser.avatar}}" alt="avatar" class="img-fluid rounded-circle" style="width: 250px;">
-    <h5 class="my-3">{{realUser.identifiant}}</h5>
-    <p class="text-muted mb-1">{{realUser.fullName()}}</p>
-    <div class="d-flex justify-content-center mt-3">
-        <button type="button" class="btn btn-info">Historique</button>
-    </div>
-</div>
+<div class="text-center" *ngIf="realUser != undefined">
+    <h1 style="font-style: italic;">Date et Heure de votre dernière connexion</h1>
+    <p class="date" style="font-style: italic; font-size: 18px;">{{ lastLoginDateTime }}</p>
+  </div>
+  
