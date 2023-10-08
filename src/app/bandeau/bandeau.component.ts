@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { UserShareService } from '../services/user-share.service';
-import { User } from '../models/user';
+import { UserShareService } from '../auth/services/user-share.service';
+import { User } from '../auth/models/user';
 
 @Component({
   selector: 'app-bandeau',

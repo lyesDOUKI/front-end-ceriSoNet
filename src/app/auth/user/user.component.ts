@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { User } from '../models/user';
 import { UserShareService } from '../services/user-share.service';
-import { BandeauComponent } from 'src/app/auth/bandeau/bandeau.component';
+
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
