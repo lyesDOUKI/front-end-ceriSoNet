@@ -4,8 +4,7 @@ import {UserShareService} from '../services/user-share.service'
 import { LoginService} from '../services/login.service';
 
 import { User } from '../models/user';
-import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
-import { ToastrService } from 'ngx-toastr';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -14,17 +13,23 @@ import { ToastrService } from 'ngx-toastr';
 export class LoginComponent {
 
   
+  ngOnInit(): void {
+    this.userShare.getUser().subscribe((user) => {
+      console.log("j observe depuis login component")
+      if(user === undefined)
+      {
+        this.isLoggedIn = false;
+      }
+    });
+    
+  }
   @ViewChild('login') login!: NgForm;
-  @ViewChild('loginModal') loginModal!: NgbModal;
-  @ViewChild('userModal') userModal!: NgbModal;
 
   info : any = {};
   user ?: User
   isLoggedIn : boolean = false;
-  modalRef?: NgbModalRef;
+  
   constructor(private loginService : LoginService,
-     private modalService : NgbModal,
-     private toastr : ToastrService,
      private userShare : UserShareService )
       {}
 
@@ -39,7 +44,6 @@ export class LoginComponent {
           console.log("is instance of User : ", this.user instanceof User);
           console.log("identfiant : " + this.user.identifiant);
           console.log("fullname :  " + this.user.fullName());
-          this.modalRef?.close();
           this.userShare.triggerFormSubmit();
           
         }
@@ -47,28 +51,11 @@ export class LoginComponent {
       error : error => {
         console.log("identfiant ou mot de passe incorrect " + error.error);
         this.userShare.setUser(undefined);
-        this.modalRef?.close();
+        
         this.userShare.triggerFormSubmit();
       }
       
   });
    
-  }
-
-  onLogout()
-  {
-    this.loginService.logout().subscribe(
-      () => {
-        console.log("logout");
-        this.isLoggedIn = false;
-        this.userShare.setUser(undefined);
-      });
-  }
-  
-  openLoginModal() {
-    this.modalRef = this.modalService.open(this.loginModal, { centered: true });
-  }
-  openUserModal() {
-    this.modalRef = this.modalService.open(this.userModal, { centered: true });
   }
 }

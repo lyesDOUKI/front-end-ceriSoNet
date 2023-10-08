@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { User } from '../models/user';
 import { UserShareService } from '../services/user-share.service';
-
+import {LoginService} from '../services/login.service';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -10,20 +10,21 @@ import { UserShareService } from '../services/user-share.service';
 export class UserComponent {
 
   realUser ?: User;
-  lastLoginDateTime: string | null = null;
-  constructor(private userShare: UserShareService) {
-    this.lastLoginDateTime = this.getLastLoginDateTime();
-    this.updateLastLoginDateTime();
+  
+  constructor(private userShare: UserShareService,
+    private loginService : LoginService) {
+    
   }
 
-  getLastLoginDateTime(): string | null {
-    return localStorage.getItem('lastLoginDateTime');
-  }
-
-  updateLastLoginDateTime() {
-    const currentDate = new Date();
-    const formattedDate = currentDate.toLocaleString();
-    localStorage.setItem('lastLoginDateTime', formattedDate);
+ 
+  onLogout()
+  {
+    this.loginService.logout().subscribe(
+      () => {
+        console.log("logout");
+        //this.isLoggedIn = false;
+        this.userShare.setUser(undefined);
+      });
   }
   ngOnInit() : void {
    this.userShare.getUser().subscribe((user) => {
