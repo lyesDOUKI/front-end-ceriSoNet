@@ -1,10 +1,9 @@
-<!--
-<div class="alert alert-info" *ngIf="!isSuccess">
+
+<div class="alert alert-info" *ngIf="isUserLogin">
   <div class="container">
-      <b>Info alert:</b> You've got some friends nearby, stop looking at your phone and find them...
+      <b>Info :</b> un nouvel utilisateur viens de nous rejoindre !
   </div>
 </div>
--->
 <div class="alert alert-success" *ngIf="isSuccess">
   <div class="container">
       <b>connexion réussie:</b> Yuhuuu! Bienvenue sur CeriSoNet {{user?.identifiant}}!
