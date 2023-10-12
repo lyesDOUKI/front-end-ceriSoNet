@@ -10,8 +10,9 @@ export class InfoLoginComponent {
   lastLoginDateTime: string | null = null;
   user : User | undefined;
   constructor(private userShare: UserShareService) {
-    this.lastLoginDateTime = this.getLastLoginDateTime();
     this.updateLastLoginDateTime();
+    this.lastLoginDateTime = this.getLastLoginDateTime();
+    
   }
   ngOnInit(): void {
     
@@ -24,9 +25,9 @@ export class InfoLoginComponent {
   }
 
   updateLastLoginDateTime() {
-    const currentDate = new Date();
-    const formattedDate = currentDate.toLocaleString();
-    localStorage.setItem('lastLoginDateTime', formattedDate);
+    const currentDate = new Date().toLocaleString();
+    
+    localStorage.setItem('lastLoginDateTime', currentDate);
   }
 
 }
