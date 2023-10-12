@@ -20,7 +20,7 @@ export class LoginService {
       observe : 'response' as 'response',
       withCredentials: true
     };
-    return this.http.post<HttpResponse<User>>(this.URI_NODE_API + 'login', dataToSend, options);
+    return this.http.post<HttpResponse<User>>(this.URI_NODE_API + '/login', dataToSend, options);
   }
   logout()
   {
@@ -31,6 +31,6 @@ export class LoginService {
       observe : 'response' as 'response',
       withCredentials: true
     };
-    return this.http.post(this.URI_NODE_API + 'logout',{}, options);
+    return this.http.post(this.URI_NODE_API + '/logout',{}, options);
   }
 }

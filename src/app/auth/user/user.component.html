@@ -1,5 +1,5 @@
 <div class="text-center" *ngIf="realUser != null">
-  <img src="{{realUser.avatar}}" alt="avatar" class="img-fluid rounded-circle" style="width: 200px;">
+ <img src="{{realUser.avatar}}" alt="avatar" class="img-fluid rounded-circle" style="width: 200px;">
   <h5 class="my-3">{{realUser.identifiant}}</h5>
   <p class="text-muted">{{realUser.fullName()}}</p>
   <button class="btn btn-info btn-lg rounded-pill shadow mb" (click)="onLogout()">
