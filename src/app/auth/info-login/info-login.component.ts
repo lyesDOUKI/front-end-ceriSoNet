@@ -7,27 +7,27 @@ import { UserShareService } from '../services/user-share.service';
   styleUrls: ['./info-login.component.css']
 })
 export class InfoLoginComponent {
-  lastLoginDateTime: string | null = null;
-  user : User | undefined;
-  constructor(private userShare: UserShareService) {
-    this.updateLastLoginDateTime();
-    this.lastLoginDateTime = this.getLastLoginDateTime();
-    
-  }
-  ngOnInit(): void {
-    
-    this.userShare.getUser().subscribe((user) => {
-      this.user = user;
-    });
-  }
-  getLastLoginDateTime(): string | null {
-    return localStorage.getItem('lastLoginDateTime');
-  }
+  lastLoginDateTime: String | null = null;
 
-  updateLastLoginDateTime() {
-    const currentDate = new Date().toLocaleString();
-    
-    localStorage.setItem('lastLoginDateTime', currentDate);
+  constructor(private userShare: UserShareService) {
   }
+ 
+  ngOnInit(): void {
+    if(localStorage.getItem("lastLoginDateTime") != null)
+    {
+      this.lastLoginDateTime = localStorage.getItem("lastLoginDateTime");
+    }else
+    {
+        this.userShare.getUser().subscribe((user) => {
+        if(user)
+        {
+          const currentDate = new Date();
+          const formattedDate = currentDate.toLocaleString();
+          this.lastLoginDateTime = formattedDate;
+        }
+      });
+   }
+  }
+  
 
 }

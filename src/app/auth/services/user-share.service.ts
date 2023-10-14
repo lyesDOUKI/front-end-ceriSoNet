@@ -12,6 +12,7 @@ export class UserShareService {
 
   triggerFormSubmit() {
     this.formSubmitSubject.next();
+    
   }
   constructor() { }
   private userSubject: BehaviorSubject<User | undefined> = new BehaviorSubject<User | undefined>(undefined);

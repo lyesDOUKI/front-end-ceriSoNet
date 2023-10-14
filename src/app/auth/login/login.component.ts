@@ -14,11 +14,16 @@ export class LoginComponent {
 
   
   ngOnInit(): void {
+    if(localStorage.getItem("user") != null){
+      this.isLoggedIn = true;
+      console.log("user local storage : " + localStorage.getItem("user"));
+    }
+    console.log("j observe depuis login component, isLoggedIn : " + this.isLoggedIn);
     this.userShare.getUser().subscribe((user) => {
       console.log("j observe depuis login component")
-      if(user === undefined)
+      if(user)
       {
-        this.isLoggedIn = false;
+        this.isLoggedIn = true;
       }
     });
     
@@ -44,7 +49,13 @@ export class LoginComponent {
           console.log("is instance of User : ", this.user instanceof User);
           console.log("identfiant : " + this.user.identifiant);
           console.log("fullname :  " + this.user.fullName());
+          localStorage.setItem("user",this.user.identifiant);
+          localStorage.setItem("objetUser", JSON.stringify(this.user));
+          const currentDate = new Date();
+          const formattedDate = currentDate.toLocaleString();
+          localStorage.setItem('lastLoginDateTime', formattedDate);
           this.userShare.triggerFormSubmit();
+          //location.reload();
           
         }
       },

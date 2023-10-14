@@ -1,4 +1,5 @@
-<form #login="ngForm" (ngSubmit)="onSubmit()" *ngIf="!isLoggedIn">
+<div *ngIf="!isLoggedIn">
+<form #login="ngForm" (ngSubmit)="onSubmit()">
     <div class="mb-3">
         <label for="username" class="form-label">Nom d'utilisateur</label>
         <input type="text" id="username" name ="username" [(ngModel)]="info.username" class="form-control" placeholder="Entrez votre nom d'utilisateur" required>
@@ -14,6 +15,7 @@
     </div>
     
 </form>
+</div>
 <div class="text-center mt-4">
     <img src="https://lia.univ-avignon.fr/wp-content/uploads/sites/40/2021/09/Logo-CERI-horizontal-avec-texte.png" 
     alt="CERI" width="250">

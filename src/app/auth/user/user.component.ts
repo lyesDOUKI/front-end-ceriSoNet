@@ -10,6 +10,7 @@ import {LoginService} from '../services/login.service';
 export class UserComponent {
 
   realUser ?: User;
+  userSotre : String | null = null;
   
   constructor(private userShare: UserShareService,
     private loginService : LoginService) {
@@ -24,11 +25,23 @@ export class UserComponent {
         console.log("logout");
         //this.isLoggedIn = false;
         this.userShare.setUser(undefined);
+        this.realUser = undefined;
+        localStorage.clear();
+        location.reload();
       });
   }
   ngOnInit() : void {
-   this.userShare.getUser().subscribe((user) => {
-     this.realUser = user;
-   });
+    if(localStorage.getItem("objetUser") != null)
+    {
+     console.log("objet user : " + localStorage.getItem("objetUser"));
+      this.realUser = new User(JSON.parse(localStorage.getItem("objetUser")!));
+      console.log("real user : " + this.realUser.identifiant);
+    }else
+    {
+      this.userShare.getUser().subscribe((user) => {
+      this.realUser = user;
+    });
+    }
+ 
   }
 }
