@@ -7,14 +7,12 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserComponent } from './user/user.component';
 import { BandeauComponent } from '../bandeau/bandeau.component';
-import { InfoLoginComponent } from './info-login/info-login.component';
 
 @NgModule({
   declarations: [
     LoginComponent,
     UserComponent,
     BandeauComponent,
-    InfoLoginComponent,
   ],
   imports: [
     CommonModule,
@@ -27,7 +25,6 @@ import { InfoLoginComponent } from './info-login/info-login.component';
     LoginComponent,
     UserComponent,
     BandeauComponent,
-    InfoLoginComponent,
   ]
 })
 export class AuthModule { }

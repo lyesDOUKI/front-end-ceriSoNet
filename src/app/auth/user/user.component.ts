@@ -11,7 +11,7 @@ export class UserComponent {
 
   realUser ?: User;
   userSotre : String | null = null;
-  
+  lastLoginDateTime : String | null = null;
   constructor(private userShare: UserShareService,
     private loginService : LoginService) {
     
@@ -42,6 +42,14 @@ export class UserComponent {
       this.realUser = user;
     });
     }
- 
+    if(localStorage.getItem("lastLoginDateTime") != null)
+    {
+      this.lastLoginDateTime = localStorage.getItem("lastLoginDateTime");
+    }else
+    {
+      const date = new Date();
+      const formattedDate = date.toLocaleString();
+      this.lastLoginDateTime = formattedDate;
+    }
   }
 }
