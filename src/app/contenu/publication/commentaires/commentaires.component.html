@@ -1,0 +1,34 @@
+<div *ngIf="post.showComments">
+    <div class="comment-container">
+        <div *ngFor="let comment of post.comments">
+            <div class="card gedf-card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center">
+                        
+                            <div class="ml-2">
+                                <div class="h5 m-0">@{{comment.commentedBy}}</div>
+                                <div class="h7 text-muted">{{comment.date}} {{comment.hour}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        {{comment.text}}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="mt-2 mb-2 comment-input">
+            <div class="input-group">
+                <input type="text" class="form-control" [(ngModel)]="newComment">
+                <button class="ms-2 btn btn-info btn-lg rounded-pill shadow" (click)="addComment(post, newComment)">
+                    <i class="bi bi-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+         
+        
+    </div>
+</div>

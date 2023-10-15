@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { UserShareService } from '../auth/services/user-share.service';
 import { User } from '../auth/models/user';
 import { environment } from 'src/environments/environment.development';
@@ -16,13 +16,13 @@ export class BandeauComponent implements OnInit {
   user : User | undefined | null = null ;
   constructor(private service: UserShareService) {}
 
+
   ngOnInit() {
     this.service.formSubmit.subscribe(() => {
-      console.log("formulaire soumis")
+      console.log("formulaire soumis");
       this.user = this.service.getUserObject();
-      window.localStorage.setItem("user",this.user!.identifiant);
       if(this.user != null){
-        console.log("form");
+        window.localStorage.setItem("user",this.user!.identifiant);
         this.isSuccess = true;
         setTimeout(() => {
           this.isSuccess = false;
@@ -48,4 +48,20 @@ export class BandeauComponent implements OnInit {
       }
     });
 }
+showScrollToTop = false;
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    // Déterminez à quelle position de défilement vous souhaitez afficher la navbar
+    const scrollPosition = window.scrollY;
+    if (scrollPosition > 200) { // Ajustez cette valeur en fonction de vos besoins
+      this.showScrollToTop = true;
+    } else {
+      this.showScrollToTop = false;
+    }
+  }
+
+  scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' }); // Faites défiler la page vers le haut de manière fluide
+  }
 }

@@ -1,16 +1,28 @@
 
-<div class="alert alert-info" *ngIf="isUserLogin">
+<!-- Navbar -->
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light" *ngIf="showScrollToTop">
   <div class="container">
-      <b>Info :</b> un nouvel utilisateur viens de nous rejoindre !
+    <div class="d-flex justify-content-center">
+      <button class="ms-5 btn btn-info btn-lg rounded-pill shadow" (click)="scrollToTop()">Accueil</button>
+    </div>
+  </div>
+</nav>
+
+<div class="notification-container">
+  <div class="alert alert-info sticky-notification" *ngIf="isUserLogin">
+    <div class="container">
+        <b>Info :</b> un nouvel utilisateur viens de nous rejoindre !
+    </div>
+  </div>
+  <div class="alert alert-success sticky-notification" *ngIf="isSuccess">
+    <div class="container">
+        <b>connexion réussie:</b> Yuhuuu! Bienvenue sur CeriSoNet {{user?.identifiant}}!
+    </div>
+  </div>
+  <div class="alert alert-danger sticky-notification" *ngIf="isFailedConnect">
+     <div class="container">
+         <b>Erreur de connexion:</b> nom d'utilisateur ou mot de passe incorrect!
+    </div>
   </div>
 </div>
-<div class="alert alert-success" *ngIf="isSuccess">
-  <div class="container">
-      <b>connexion réussie:</b> Yuhuuu! Bienvenue sur CeriSoNet {{user?.identifiant}}!
-  </div>
-</div>
-<div class="alert alert-danger" *ngIf="isFailedConnect">
-   <div class="container">
-       <b>Erreur de connexion:</b> nom d'utilisateur ou mot de passe incorrect!
-  </div>
-</div>
+

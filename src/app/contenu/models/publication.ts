@@ -1,4 +1,5 @@
 export class Publication {
+  
     _id!: number;
     date!: string;
     hour!: string;
@@ -12,6 +13,7 @@ export class Publication {
     constructor(obj: any) {
         Object.assign(this, obj);
     }
+    showComments : boolean = false;
   }
   
   class Comment {

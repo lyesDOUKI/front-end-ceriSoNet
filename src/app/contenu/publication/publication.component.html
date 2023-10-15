@@ -11,27 +11,23 @@
                         <div class="h7 text-muted">{{post.date}}</div>
                     </div>
                 </div>
-                
             </div>
-
         </div>
         <div class="card-body">
-            
             <a class="card-link" href="#">
                 <h5 class="card-title">{{post.title}}</h5>
             </a>
-
             <p class="card-text">
                 {{post.body}}
             </p>
             <div class="mr-2">
                 <img class="img-fluid" src="{{post.images.url}}" alt="{{post.images.title}}">
             </div>
-            
         </div>
         <div class="card-footer">
             <a href="#" class="card-link"><i class="fa fa-gittip"></i>J'aime</a>
-            <a href="#" class="card-link"><i class="fa fa-comment"></i>Commenter</a>
+            <a class="card-link" (click)="toggleComments(post)"><i class="fa fa-comment"></i>Commenter</a>
         </div>
+        <app-commentaires [post]="post"></app-commentaires>
     </div>
 </div>

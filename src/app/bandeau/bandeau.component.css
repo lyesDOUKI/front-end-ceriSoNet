@@ -1,3 +1,27 @@
+.notification-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+}
+
+.sticky-notification {
+  max-width: 80%; /* Ajustez la largeur maximale selon vos besoins */
+  background-color: rgba(255, 255, 255, 0.9); /* Fond semi-transparent pour une meilleure lisibilité */
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+/* Ajoutez des styles spécifiques pour chaque type de notification si nécessaire */
+
+
 .title h3{
   font-size: 25px !important;
   margin-top: 20px;
@@ -98,3 +122,23 @@ footer p a:hover {
   color: #9f26aa;
   text-decoration: none;
 }
+.scroll-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: none; /* Masquez initialement la navbar */
+}
+
+.scroll-to-top button {
+  background-color: #007BFF;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.scroll-to-top button:hover {
+  background-color: #0056b3;
+}
+  

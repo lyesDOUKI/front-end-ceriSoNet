@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AddPostComponent } from './add-post/add-post.component';
 import { FiltrePostComponent } from './filtre-post/filtre-post.component';
+import { CommentairesComponent } from './publication/commentaires/commentaires.component';
 
 
 
@@ -13,7 +14,8 @@ import { FiltrePostComponent } from './filtre-post/filtre-post.component';
   declarations: [
     PublicationComponent,
     AddPostComponent,
-    FiltrePostComponent
+    FiltrePostComponent,
+    CommentairesComponent
   ],
   imports: [
     CommonModule,
@@ -23,7 +25,8 @@ import { FiltrePostComponent } from './filtre-post/filtre-post.component';
   ],
   exports: [PublicationComponent,
     AddPostComponent,
-    FiltrePostComponent
+    FiltrePostComponent,
+    CommentairesComponent
   ]
 })
 export class ContenuModule { }
