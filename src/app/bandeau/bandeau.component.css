@@ -4,11 +4,12 @@
   align-items: center;
   flex-direction: column;
   position: fixed;
-  top: 0;
+  top: 0; /* Affichez les notifications en haut de la page */
   left: 0;
   width: 100%;
   z-index: 999;
 }
+
 
 .sticky-notification {
   max-width: 80%; /* Ajustez la largeur maximale selon vos besoins */

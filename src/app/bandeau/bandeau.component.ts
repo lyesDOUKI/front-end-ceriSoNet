@@ -14,6 +14,8 @@ export class BandeauComponent implements OnInit {
   isFailedConnect : boolean = false;
   isUserLogin : boolean = false;
   isLogout : boolean = false;
+  isPostLike : boolean = false;
+  title = "";
   user : User | undefined | null = null ;
   constructor(private service: UserShareService, private router : Router) {}
 
@@ -24,14 +26,18 @@ export class BandeauComponent implements OnInit {
       this.user = this.service.getUserObject();
       if(this.user != null){
         window.localStorage.setItem("user",this.user!.identifiant);
+        this.showScrollToTop = false;
         this.isSuccess = true;
         setTimeout(() => {
+          this.showScrollToTop = true;
           this.isSuccess = false;
         }, 3000);
       }else if(this.user === undefined)
       {
+        this.showScrollToTop = false;
         this.isFailedConnect = true;
         setTimeout(() => {
+          this.showScrollToTop = true;
           this.isFailedConnect = false;
         }, 3000);
       }  
@@ -42,8 +48,10 @@ export class BandeauComponent implements OnInit {
       console.log("identifiant : " + this.user?.identifiant);
       if(this.user != undefined && message !== this.user.identifiant){
         console.log("socket");
+        this.showScrollToTop = false;
         this.isUserLogin = true;
         setTimeout(() => {
+          this.showScrollToTop = true;
           this.isUserLogin = false;
         }, 3000);
       }
@@ -53,9 +61,23 @@ export class BandeauComponent implements OnInit {
       console.log("identifiant socket logout : " + this.user?.identifiant);
       if(this.user != undefined && message !== this.user.identifiant){
         console.log("socket");
+        this.showScrollToTop = false;
         this.isLogout = true;
         setTimeout(() => {
+          this.showScrollToTop = true;
           this.isLogout = false;
+        }, 3000);
+      }
+    });
+    socket.on('like', (message) => {
+      if(this.user != undefined && message !== this.user.identifiant){
+        console.log("socket");
+        this.title = message.title;
+        this.showScrollToTop = false;
+        this.isPostLike = true;
+        setTimeout(() => {
+          this.showScrollToTop = true;
+          this.isPostLike = false;
         }, 3000);
       }
     });

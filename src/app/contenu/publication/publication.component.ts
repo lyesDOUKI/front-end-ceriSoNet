@@ -40,5 +40,22 @@ export class PublicationComponent {
 
   }
   
-
+  likePost(post: Publication | null) {
+    
+    if(post)
+    {
+      this.publicationServie.likePublication(post!._id).subscribe(
+        (response) => {
+          if(response.body)
+          {
+            console.log("response : " + response.body);
+            var postTmp = new Publication(response.body);
+            console.log("is instance of Publication : " + (postTmp instanceof Publication));
+            console.log("likes : " + postTmp.likes);
+            post.likes = postTmp.likes;
+          }
+        }
+      );
+    }
+  }
 }

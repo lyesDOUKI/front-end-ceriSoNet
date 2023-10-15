@@ -9,9 +9,15 @@
 </nav>
 
 <div class="notification-container">
+  
   <div class="alert alert-info sticky-notification" *ngIf="isUserLogin">
     <div class="container">
         <b>Info :</b> un nouvel utilisateur viens de nous rejoindre !
+    </div>
+  </div>
+  <div class="alert alert-info sticky-notification" *ngIf="isPostLike">
+    <div class="container">
+        <b>Info :</b> une publication viens d'être liké  !
     </div>
   </div>
   <div class="alert alert-info sticky-notification" *ngIf="isLogout">
