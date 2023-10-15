@@ -4,6 +4,7 @@ import { User } from '../auth/models/user';
 import { environment } from 'src/environments/environment.development';
 import { io } from 'socket.io-client';
 import { Router } from '@angular/router';
+import { PublicationService } from '../contenu/services/publication.service';
 @Component({
   selector: 'app-bandeau',
   templateUrl: './bandeau.component.html',
@@ -15,12 +16,42 @@ export class BandeauComponent implements OnInit {
   isUserLogin : boolean = false;
   isLogout : boolean = false;
   isPostLike : boolean = false;
-  title = "";
+  isWarningLikes : boolean = false;
+  isWarningComments : boolean = false;
+  isCommentPost : boolean = false;
   user : User | undefined | null = null ;
-  constructor(private service: UserShareService, private router : Router) {}
+  constructor(private service: UserShareService, private router : Router,
+    private publicationService : PublicationService) {}
 
 
   ngOnInit() {
+
+    this.publicationService.commentSubmit.subscribe(() => {
+      console.log("comment submit");
+      console.log("etat : " + this.publicationService.getEtatComment());
+        if(!this.publicationService.getEtatComment())
+        {
+          this.showScrollToTop = false;
+          this.isWarningComments = true;
+          setTimeout(() => {
+            this.showScrollToTop = true;
+            this.isWarningComments = false;
+          }, 3000);
+        }
+    });
+    this.publicationService.likeSubmit.subscribe(() => {
+      console.log("like submit");
+      console.log("etat : " + this.publicationService.getEtatLike());
+        if(!this.publicationService.getEtatLike())
+        {
+          this.showScrollToTop = false;
+          this.isWarningLikes = true;
+          setTimeout(() => {
+            this.showScrollToTop = true;
+            this.isWarningLikes = false;
+          }, 3000);
+        }
+    });
     this.service.formSubmit.subscribe(() => {
       console.log("formulaire soumis");
       this.user = this.service.getUserObject();
@@ -72,12 +103,22 @@ export class BandeauComponent implements OnInit {
     socket.on('like', (message) => {
       if(this.user != undefined && message !== this.user.identifiant){
         console.log("socket");
-        this.title = message.title;
         this.showScrollToTop = false;
         this.isPostLike = true;
         setTimeout(() => {
           this.showScrollToTop = true;
           this.isPostLike = false;
+        }, 3000);
+      }
+    });
+    socket.on('comment', (message) => {
+      if(this.user != undefined && message !== this.user.identifiant){
+        console.log("socket");
+        this.showScrollToTop = false;
+        this.isCommentPost = true;
+        setTimeout(() => {
+          this.showScrollToTop = true;
+          this.isCommentPost = false;
         }, 3000);
       }
     });

@@ -21,14 +21,14 @@
             </div>
         </div>
         <div class="mt-2 mb-2 comment-input">
-            <div class="input-group">
-                <input type="text" class="form-control" [(ngModel)]="newComment">
-                <button class="ms-2 btn btn-info btn-lg rounded-pill shadow" (click)="addComment(post, newComment)">
-                    <i class="bi bi-arrow-right"></i>
-                </button>
-            </div>
+            <form (ngSubmit)="addComment(post, newComment)">
+                <div class="input-group">
+                    <input type="text" class="form-control" [(ngModel)]="newComment" name="commentText" required>
+                    <button class="ms-2 btn btn-info btn-lg rounded-pill shadow" type="submit">
+                        <i class="bi bi-arrow-right"></i>
+                    </button>
+                </div>
+            </form>
         </div>
-         
-        
     </div>
 </div>

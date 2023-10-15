@@ -9,20 +9,34 @@
 </nav>
 
 <div class="notification-container">
-  
+  <div class="alert alert-warning sticky-notification" *ngIf="isWarningLikes">
+    <div class="container">
+        <b>Attention :</b> Vous devez vous connecter pour aimer une publication !
+    </div>
+  </div>
+  <div class="alert alert-warning sticky-notification" *ngIf="isWarningComments">
+    <div class="container">
+        <b>Attention :</b> Vous devez vous connecter pour commenter une publication !
+    </div>
+  </div>
   <div class="alert alert-info sticky-notification" *ngIf="isUserLogin">
     <div class="container">
-        <b>Info :</b> un nouvel utilisateur viens de nous rejoindre !
+        <b>Info :</b> Un nouvel utilisateur viens de nous rejoindre !
     </div>
   </div>
   <div class="alert alert-info sticky-notification" *ngIf="isPostLike">
     <div class="container">
-        <b>Info :</b> une publication viens d'être liké  !
+        <b>Info :</b> Une publication viens d'être liké  !
+    </div>
+  </div>
+  <div class="alert alert-info sticky-notification" *ngIf="isCommentPost">
+    <div class="container">
+        <b>Info :</b> Une publication viens d'être commentée !
     </div>
   </div>
   <div class="alert alert-info sticky-notification" *ngIf="isLogout">
     <div class="container">
-        <b>Info :</b> un utilisateur c'est déconnecté !
+        <b>Info :</b> Un utilisateur c'est déconnecté !
     </div>
   </div>
   <div class="alert alert-success sticky-notification" *ngIf="isSuccess">
@@ -32,7 +46,7 @@
   </div>
   <div class="alert alert-danger sticky-notification" *ngIf="isFailedConnect">
      <div class="container">
-         <b>Erreur de connexion:</b> nom d'utilisateur ou mot de passe incorrect!
+         <b>Erreur de connexion:</b> Nom d'utilisateur ou mot de passe incorrect!
     </div>
   </div>
 </div>
