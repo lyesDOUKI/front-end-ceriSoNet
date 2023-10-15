@@ -30,20 +30,15 @@ export class PublicationComponent {
        
   }
   
-  toggleComments(post : Publication){
+  toggleComments(post: Publication) {
     this.listPublications?.forEach((publication) => {
-      if(publication._id != post._id)
-      {
+      if (publication._id !== post._id) {
         publication.showComments = false;
       }
     });
     post.showComments = !post.showComments;
-    setTimeout(() => {
-      const commentContainer = this.el.nativeElement.querySelector('.comment-container');
-      if (commentContainer) {
-        commentContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }, 0);
+
   }
+  
 
 }

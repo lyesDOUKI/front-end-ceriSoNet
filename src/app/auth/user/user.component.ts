@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { User } from '../models/user';
 import { UserShareService } from '../services/user-share.service';
 import {LoginService} from '../services/login.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -13,7 +14,8 @@ export class UserComponent {
   userSotre : String | null = null;
   lastLoginDateTime : String | null = null;
   constructor(private userShare: UserShareService,
-    private loginService : LoginService) {
+    private loginService : LoginService,
+    private router : Router) {
     
   }
 
@@ -23,14 +25,16 @@ export class UserComponent {
     this.loginService.logout().subscribe(
       () => {
         console.log("logout");
-        //this.isLoggedIn = false;
         this.userShare.setUser(undefined);
         this.realUser = undefined;
         localStorage.clear();
+        this.router.navigate(['/login']);
         location.reload();
+        
       });
   }
   ngOnInit() : void {
+    //location.reload();
     if(localStorage.getItem("objetUser") != null)
     {
      console.log("objet user : " + localStorage.getItem("objetUser"));

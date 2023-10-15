@@ -3,7 +3,7 @@ import { UserShareService } from '../auth/services/user-share.service';
 import { User } from '../auth/models/user';
 import { environment } from 'src/environments/environment.development';
 import { io } from 'socket.io-client';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-bandeau',
   templateUrl: './bandeau.component.html',
@@ -13,8 +13,9 @@ export class BandeauComponent implements OnInit {
   isSuccess: boolean = false;
   isFailedConnect : boolean = false;
   isUserLogin : boolean = false;
+  isLogout : boolean = false;
   user : User | undefined | null = null ;
-  constructor(private service: UserShareService) {}
+  constructor(private service: UserShareService, private router : Router) {}
 
 
   ngOnInit() {
@@ -47,6 +48,17 @@ export class BandeauComponent implements OnInit {
         }, 3000);
       }
     });
+    socket.on('logout', (message) => {
+      console.log("message socket logout: "+ message);
+      console.log("identifiant socket logout : " + this.user?.identifiant);
+      if(this.user != undefined && message !== this.user.identifiant){
+        console.log("socket");
+        this.isLogout = true;
+        setTimeout(() => {
+          this.isLogout = false;
+        }, 3000);
+      }
+    });
 }
 showScrollToTop = false;
 
@@ -62,6 +74,10 @@ showScrollToTop = false;
   }
 
   scrollToTop() {
-    window.scrollTo({ top: 0, behavior: 'smooth' }); // Faites défiler la page vers le haut de manière fluide
+    
+    this.router.navigate(['']).then(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    //window.scrollTo({ top: 0, behavior: 'smooth' }); // Faites défiler la page vers le haut de manière fluide
   }
 }

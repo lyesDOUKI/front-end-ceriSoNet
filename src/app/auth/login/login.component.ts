@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import {UserShareService} from '../services/user-share.service'
 import { LoginService} from '../services/login.service';
-
+import { Router } from '@angular/router';
 import { User } from '../models/user';
 
 @Component({
@@ -35,7 +35,8 @@ export class LoginComponent {
   isLoggedIn : boolean = false;
   
   constructor(private loginService : LoginService,
-     private userShare : UserShareService )
+     private userShare : UserShareService,
+     private router : Router )
       {}
 
   onSubmit() {
@@ -55,8 +56,7 @@ export class LoginComponent {
           const formattedDate = currentDate.toLocaleString();
           localStorage.setItem('lastLoginDateTime', formattedDate);
           this.userShare.triggerFormSubmit();
-          //location.reload();
-          
+          this.router.navigate(['']);
         }
       },
       error : error => {
