@@ -58,6 +58,7 @@ export class LoginComponent {
           localStorage.setItem('lastLoginDateTime', formattedDate);
 
           this.userShare.triggerFormSubmit();
+          location.reload();
           this.router.navigate(['']);
         }
       },
