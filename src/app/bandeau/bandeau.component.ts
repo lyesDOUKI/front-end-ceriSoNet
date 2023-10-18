@@ -19,12 +19,36 @@ export class BandeauComponent implements OnInit {
   isWarningLikes : boolean = false;
   isWarningComments : boolean = false;
   isCommentPost : boolean = false;
+  isWarningAddPost : boolean = false;
+  isPostOk : boolean = false;
+  notifyNewPost : boolean = false;
   user : User | undefined | null = null ;
   constructor(private service: UserShareService, private router : Router,
     private publicationService : PublicationService) {}
 
-
+ 
   ngOnInit() {
+    this.publicationService.addSubmit.subscribe(() => {
+      console.log("add submit");
+      console.log("etat : " + this.publicationService.getEtatAdd());
+        if(!this.publicationService.getEtatAdd())
+        {
+          this.showScrollToTop = false;
+          this.isWarningAddPost = true;
+          setTimeout(() => {
+            this.showScrollToTop = true;
+            this.isWarningAddPost = false;
+          }, 3000);
+        }else
+        {
+          this.showScrollToTop = false;
+          this.isPostOk = true;
+          setTimeout(() => {
+            this.showScrollToTop = true;
+            this.isPostOk = false;
+          }, 3000);
+        }
+    });
 
     this.publicationService.commentSubmit.subscribe(() => {
       console.log("comment submit");
@@ -75,7 +99,9 @@ export class BandeauComponent implements OnInit {
     });
     const socket = io(environment.URI_NODE_API);
     socket.on('notify', (message) => {
+      this.loadUser();
       console.log("message : "+ message);
+      console.log("this user : " + this.user);
       console.log("identifiant : " + this.user?.identifiant);
       if(this.user != undefined && message !== this.user.identifiant){
         console.log("socket");
@@ -88,6 +114,7 @@ export class BandeauComponent implements OnInit {
       }
     });
     socket.on('logout', (message) => {
+      this.loadUser();
       console.log("message socket logout: "+ message);
       console.log("identifiant socket logout : " + this.user?.identifiant);
       if(this.user != undefined && message !== this.user.identifiant){
@@ -101,6 +128,7 @@ export class BandeauComponent implements OnInit {
       }
     });
     socket.on('like', (message) => {
+      this.loadUser();
       if(this.user != undefined && message !== this.user.identifiant){
         console.log("socket");
         this.showScrollToTop = false;
@@ -112,6 +140,7 @@ export class BandeauComponent implements OnInit {
       }
     });
     socket.on('comment', (message) => {
+      this.loadUser();
       if(this.user != undefined && message !== this.user.identifiant){
         console.log("socket");
         this.showScrollToTop = false;
@@ -119,6 +148,18 @@ export class BandeauComponent implements OnInit {
         setTimeout(() => {
           this.showScrollToTop = true;
           this.isCommentPost = false;
+        }, 3000);
+      }
+    });
+    socket.on('addPost', (message) => {
+      this.loadUser();
+      if(this.user != undefined && message !== this.user.identifiant){
+        console.log("socket");
+        this.showScrollToTop = false;
+        this.notifyNewPost = true;
+        setTimeout(() => {
+          this.showScrollToTop = true;
+          this.notifyNewPost = false;
         }, 3000);
       }
     });
@@ -142,5 +183,13 @@ showScrollToTop = false;
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
     //window.scrollTo({ top: 0, behavior: 'smooth' }); // Faites défiler la page vers le haut de manière fluide
+  }
+  loadUser() : void
+  {
+    if((this.user == undefined || null) && localStorage.getItem("objetUser"))
+    {
+      this.user = new User(JSON.parse(localStorage.getItem("objetUser")!));
+    }
+
   }
 }

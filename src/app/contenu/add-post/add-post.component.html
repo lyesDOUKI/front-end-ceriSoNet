@@ -2,27 +2,41 @@
     <div class="card-header">
         <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true">Make
-                    a publication</a>
+                <a class="nav-link active" id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true">Faire une publication</a>
             </li>
         </ul>
     </div>
     <div class="card-body">
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
-                <div class="form-group">
-                    <label class="sr-only" for="message">post</label>
-                    <textarea class="form-control" id="message" rows="3" placeholder="What are you thinking?"></textarea>
-                </div>
+                <form (ngSubmit)="submitForm()" #postForm="ngForm">
 
+                    <div class="form-group">
+                        <label class="sr-only" for="message">Publication</label>
+                        <textarea class="mb-2 form-control" id="message" name="body" rows="3" placeholder="Qu'avez-vous à l'esprit?" required [(ngModel)]="post.body" ngModel></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="images">URL de l'image</label>
+                        <input type="url" class="mb-2 form-control" id="images" name="images" placeholder="URL de l'image" required [(ngModel)]="post.images" ngModel>
+                    </div>
+                    <div class="mt-2 mb-2 input-group">
+                        <span class="input-group-text">#</span>
+                        <input type="text" [(ngModel)]="hashtagQuery" name="hashtagQuery" class="form-control">
+                        <button type="button" (click)="addHashtag()" class="ms-2 btn btn-info btn-lg rounded-pill shadow">Ajouter</button>
+                    </div>
+                    <div class="mt-2 mb-2 hashtag-list d-flex">
+                        <div *ngFor="let hashtag of post.hashtags" class="me-2">
+                            {{ hashtag }}
+                            <button (click)="removeHashtag(hashtag)" class="ms-2 mt-2 mb-2 btn btn-danger btn-sm rounded-pill shadow">Supprimer</button>
+                        </div>
+                    </div>
+                    <div class="btn-toolbar justify-content-between">
+                        <div class="btn-group mt-3">
+                            <button type="submit" class="btn btn-info btn-lg rounded-pill shadow">Publier</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-            
-        </div>
-        <div class="btn-toolbar justify-content-between">
-            <div class="btn-group mt-3">
-                <button type="submit" class="btn btn-info btn-lg rounded-pill shadow">Publier</button>
-            </div>
-            
         </div>
     </div>
 </div>

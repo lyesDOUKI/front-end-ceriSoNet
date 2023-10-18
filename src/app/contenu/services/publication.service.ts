@@ -22,6 +22,23 @@ export class PublicationService {
 
   commentSubmit = this.buttonCommentSubject.asObservable();
   etatComment : boolean = false;
+
+  private bouttonAddSubject = new Subject<void>();
+  addSubmit = this.bouttonAddSubject.asObservable();
+  etatAdd : boolean = false;
+  triggerAddSubmit() {
+    
+    this.bouttonAddSubject.next();
+    
+  }
+  getEtatAdd()
+  {
+    return this.etatAdd;
+  }
+  setEtatAdd(etat : boolean)
+  {
+    this.etatAdd = etat;
+  }
   triggerLikeSubmit() {
     
     this.buttonLikeSubject.next();
@@ -126,5 +143,18 @@ export class PublicationService {
     };
 
     return this.http.post<HttpResponse<Publication>>(this.URI_NODE_API + '/comments', dataToSend, options);
+  }
+  //ajout post
+  addPublication(body: string, images: string, hashtags: string[]) {
+    const dataToSend = { body : body, images : images, hashtags : hashtags};
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      observe: 'response' as 'response',
+      withCredentials: true
+    };
+
+    return this.http.post<HttpResponse<any>>(this.URI_NODE_API + '/addpost', dataToSend, options);
   }
 }
