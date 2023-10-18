@@ -1,4 +1,9 @@
-<div *ngFor="let post of listPublications">
+<div id="lespostes" class="text-center mb-4 mt-4 bg-info shadow text-white p-3">
+    <h2>Les Publications</h2>
+    <p>Explorez nos dernières publications passionnantes.</p>
+  </div>
+  
+<div *ngFor="let post of listPublications!.slice(startIndex, startIndex + pageSize)">
     <div class="card gedf-card">
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
@@ -34,3 +39,9 @@
         <app-commentaires [post]="post"></app-commentaires>
     </div>
 </div>
+<div>
+    <button [disabled]="!hasPrevPage()" (click)="prevPage()" class="mt-2 me-4 btn btn-info btn-lg rounded-pill shadow">Page précédente</button>
+    <button [disabled]="!hasNextPage()" class="mt-2 btn btn-info btn-lg rounded-pill shadow" (click)="nextPage()">Page suivante</button>
+  </div>
+  
+  

@@ -11,7 +11,38 @@ export class PublicationComponent {
   listPublications: Publication[] | null | undefined = [];
   showComments : boolean = false;
   newComment : String = "";
+  pageSize: number = 5; // Nombre de publications par page
+  startIndex: number = 0; // Index de départ pour l'affichage des publications
+
   constructor(private publicationServie : PublicationService, private el : ElementRef) { }
+  
+  nextPage() {
+    
+    
+    const element = document.querySelector('#lespostes'); // Remplacez 'votre-div-id' par l'ID de votre div cible
+    if (element) {
+    element.scrollIntoView({ behavior: 'smooth' });
+  }
+    setTimeout(() => {
+      this.startIndex += this.pageSize;
+    }, 500);
+  }
+
+  // Une méthode pour revenir à la page précédente
+  prevPage() {
+    this.startIndex -= this.pageSize;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Une méthode pour vérifier si la page précédente existe
+  hasPrevPage() {
+    return this.startIndex > 0;
+  }
+
+  // Une méthode pour vérifier si la page suivante existe
+  hasNextPage() {
+    return this.startIndex + this.pageSize < this.listPublications!.length;
+  }
   ngOnInit(): void {
     this.publicationServie.getPublications().subscribe(
       (response) => {
