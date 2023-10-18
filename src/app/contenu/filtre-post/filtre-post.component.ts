@@ -51,6 +51,10 @@ export class FiltrePostComponent {
     }else{
       this.publicationServie.getPublicationByFiltre(this.selected);
     }
+    const element = document.querySelector('#lespostes'); // Remplacez 'votre-div-id' par l'ID de votre div cible
+    if (element) {
+    element.scrollIntoView({ behavior: 'smooth' });
+  }
 
 }
 }
