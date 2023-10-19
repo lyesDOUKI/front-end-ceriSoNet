@@ -37,7 +37,7 @@
                 <span>{{post.likes}} J'aime</span>
             </p>
             <div class="d-flex justify-content-end">
-                <button *ngIf="post.shared" class="mb-3 btn btn-md btn-info rounded-pill shadow">
+                <button *ngIf="post.shared" class="mb-3 btn btn-md btn-info rounded-pill shadow" (click)="openLoginModal()">
                     Partagé depuis
                 </button>
             </div>
@@ -46,6 +46,9 @@
         </div>
         <app-commentaires [post]="post"></app-commentaires>
     </div>
+    <ng-template #loginModal let-modal>
+        <app-shared-post [post]="post"></app-shared-post>
+    </ng-template>
 </div>
 <div>
     <button [disabled]="!hasPrevPage()" (click)="prevPage()" class="mt-2 me-4 btn btn-info btn-lg rounded-pill shadow">Page précédente</button>

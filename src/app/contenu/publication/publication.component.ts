@@ -1,6 +1,7 @@
-import { Component, ElementRef } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { PublicationService } from '../services/publication.service';
 import { Publication } from '../models/publication';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-publication',
   templateUrl: './publication.component.html',
@@ -13,8 +14,10 @@ export class PublicationComponent {
   newComment : String = "";
   pageSize: number = 5; // Nombre de publications par page
   startIndex: number = 0; // Index de départ pour l'affichage des publications
-
-  constructor(private publicationServie : PublicationService, private el : ElementRef) { }
+  @ViewChild('loginModal') loginModal!: NgbModal;
+  modalRef?: NgbModalRef;
+  constructor(private publicationServie : PublicationService, private el : ElementRef,
+    private modalService : NgbModal,) { }
   
   nextPage() {
     
@@ -96,5 +99,8 @@ export class PublicationComponent {
       this.publicationServie.setEtatLike(false);
     }
     this.publicationServie.triggerLikeSubmit();
+  }
+  openLoginModal() {
+    this.modalRef = this.modalService.open(this.loginModal, { centered: true });
   }
 }

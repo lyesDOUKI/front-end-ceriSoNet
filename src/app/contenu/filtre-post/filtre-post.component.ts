@@ -55,6 +55,7 @@ export class FiltrePostComponent {
     if (element) {
     element.scrollIntoView({ behavior: 'smooth' });
   }
+  
 
 }
 }

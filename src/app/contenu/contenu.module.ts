@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { AddPostComponent } from './add-post/add-post.component';
 import { FiltrePostComponent } from './filtre-post/filtre-post.component';
 import { CommentairesComponent } from './publication/commentaires/commentaires.component';
+import { SharedPostComponent } from './publication/shared-post/shared-post.component';
 
 
 
@@ -15,7 +16,8 @@ import { CommentairesComponent } from './publication/commentaires/commentaires.c
     PublicationComponent,
     AddPostComponent,
     FiltrePostComponent,
-    CommentairesComponent
+    CommentairesComponent,
+    SharedPostComponent
   ],
   imports: [
     CommonModule,
@@ -26,7 +28,8 @@ import { CommentairesComponent } from './publication/commentaires/commentaires.c
   exports: [PublicationComponent,
     AddPostComponent,
     FiltrePostComponent,
-    CommentairesComponent
+    CommentairesComponent,
+    SharedPostComponent
   ]
 })
 export class ContenuModule { }
