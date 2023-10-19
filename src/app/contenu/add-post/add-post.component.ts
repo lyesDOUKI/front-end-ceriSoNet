@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { PublicationService } from '../services/publication.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-add-post',
@@ -42,11 +43,14 @@ export class AddPostComponent {
   };
 
 
+  @ViewChild('postForm') postForm!: NgForm;
   submitForm() {
-    this.spinnerOn = true;
+    if(this.postForm.valid){
       if(localStorage.getItem("objetUser")){
+        this.spinnerOn = true;
       console.log('Formulaire ajout post soumis !');
       console.log('Données du formulaire :', this.post);
+      
       this.publicationService.addPublication(
         this.post.body,
         this.post.images,
@@ -56,6 +60,7 @@ export class AddPostComponent {
           this.publicationService.setEtatAdd(true);
           console.log('Publication ajoutée !');
           this.spinnerOn = false;
+          this.publicationService.triggerAddSubmit();
         },
         error: (err) => {
           console.log('Erreur lors de l\'ajout de la publication :', err);
@@ -67,7 +72,7 @@ export class AddPostComponent {
       console.log("vous n'etes pas connecté");
       this.publicationService.setEtatAdd(false);
     }
-    this.publicationService.triggerAddSubmit();
+    
       // Réinitialisez les valeurs du formulaire si nécessaire.
       this.post = {
         body: '',
@@ -76,4 +81,5 @@ export class AddPostComponent {
       };
       this.hashtagQuery = '';
   }
+}
 }

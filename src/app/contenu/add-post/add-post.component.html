@@ -9,12 +9,22 @@
     <div class="card-body">
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
-                <form (ngSubmit)="submitForm()" #postForm="ngForm">
+                <form (ngSubmit)="submitForm()" #postForm="ngForm" class="needs-validation" novalidate>
 
                     <div class="form-group">
-                        <label class="sr-only" for="message">Publication</label>
-                        <textarea class="mb-2 form-control" id="message" name="body" rows="3" placeholder="Qu'avez-vous à l'esprit?" required [(ngModel)]="post.body" ngModel></textarea>
+                        <label for="validationTextarea" class="form-label">Publication</label>
+                        <textarea class="mb-2 form-control 
+                            {{ postForm.submitted && postForm.invalid ? 'is-invalid' : '' }}
+                            {{ postForm.submitted && !postForm.invalid ? 'is-valid' : '' }}"
+                            id="message" name="body" rows="3" 
+                            placeholder="Qu'avez-vous à l'esprit?" required [(ngModel)]="post.body" ngModel>
+                        </textarea>
+                        <div class="invalid-feedback">
+                            Veuillez entrer un message
+                        </div>
                     </div>
+                    
+                    
                     <div class="form-group">
                         <label class="sr-only" for="images">URL de l'image</label>
                         <input type="url" class="mb-2 form-control" id="images" name="images" placeholder="URL de l'image" required [(ngModel)]="post.images" ngModel>
