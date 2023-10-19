@@ -100,6 +100,7 @@ export class BandeauComponent implements OnInit {
     const socket = io(environment.URI_NODE_API);
     socket.on('notify', (message) => {
       this.loadUser();
+      this.service.setIdentifiant(message);
       console.log("message : "+ message);
       console.log("this user : " + this.user);
       console.log("identifiant : " + this.user?.identifiant);
@@ -115,6 +116,7 @@ export class BandeauComponent implements OnInit {
     });
     socket.on('logout', (message) => {
       this.loadUser();
+      this.service.setIdentifiant(message);
       console.log("message socket logout: "+ message);
       console.log("identifiant socket logout : " + this.user?.identifiant);
       if(this.user != undefined && message !== this.user.identifiant){

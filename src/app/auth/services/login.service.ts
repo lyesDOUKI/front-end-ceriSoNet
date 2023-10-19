@@ -45,4 +45,5 @@ export class LoginService {
     };
     return this.http.get<string []>(this.URI_NODE_API + '/usersOn', options);
   }
+  
 }

@@ -17,6 +17,8 @@ export class UserShareService {
   constructor() { }
   private userSubject: BehaviorSubject<User | undefined> = new BehaviorSubject<User | undefined>(undefined);
   private user : User | undefined;
+  private identifantSubject: BehaviorSubject<string | undefined> = new BehaviorSubject<string | undefined>(undefined);
+  private identifiant : string | undefined;
   setUser(user: User | undefined) {
     this.user = user
     this.userSubject.next(this.user);
@@ -28,5 +30,13 @@ export class UserShareService {
   getUserObject(): User | undefined {
     return this.user;
   }
+  setIdentifiant(identifiant: string | undefined) {
+    this.identifiant = identifiant
+    this.identifantSubject.next(this.identifiant);
+  }
 
+  getIdentifiant(): Observable<string | undefined> {
+    return this.identifantSubject.asObservable();
+  }
+  
 }

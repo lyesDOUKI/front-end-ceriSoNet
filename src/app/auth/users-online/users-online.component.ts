@@ -22,6 +22,7 @@ export class UsersOnlineComponent implements OnInit{
       this.isConnected = true;
       this.identifiant = localStorage.getItem("user")!;
       this.getUsers();
+      this.observeNewUser();
     }
     console.log("je suis dans le on init de users online");
     this.share.getUser().subscribe((user) => {
@@ -30,6 +31,7 @@ export class UsersOnlineComponent implements OnInit{
         this.identifiant = user.identifiant;
         this.isConnected = true;
         this.getUsers();
+        this.observeNewUser();
       }
     });
    
@@ -44,8 +46,29 @@ export class UsersOnlineComponent implements OnInit{
       const index = this.users?.indexOf(this.identifiant);
 
       if (index! > -1) {
-        this.users!.splice(index!, 1); // Supprime un élément à l'index donné (dans ce cas, l'élément 'abc')
+        this.users!.splice(index!, 1); // Supprime un élément à l'index donné
       }
+    });
+  }
+  observeNewUser()
+  {
+    this.share.getIdentifiant().subscribe((identifiant) => {
+      if(identifiant)
+      {
+        
+        if(this.users?.includes(identifiant))
+        {
+          const index = this.users?.indexOf(identifiant);
+
+         if (index! > -1) {
+            this.users!.splice(index!, 1); // Supprime un élément à l'index donné
+          }
+          
+        }else{
+          this.users?.push(identifiant);
+        }
+      }
+      
     });
   }
 }
