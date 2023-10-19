@@ -38,7 +38,7 @@
         <div class="card-footer">
             <a class="card-link" (click)="likePost(post)" style="cursor: pointer;"><i class="fa fa-gittip"></i>J'aime</a>
             <a class="card-link" (click)="toggleComments(post)" style="cursor: pointer;"><i class="fa fa-comment"></i>Commenter</a>
-            <a class="card-link" (click)="openshareModal()" style="cursor: pointer;"><i class="fa fa-share"></i>Partagé</a>
+            <a class="card-link" (click)="openshareModal(post)" style="cursor: pointer;"><i class="fa fa-share"></i>Partagé</a>
             <ng-template #shareModal let-modal>
                 <div class="modal-content">
                     <div class="modal-header">
@@ -46,7 +46,7 @@
         
                     </div>
                     <div class="modal-body">
-                      <form (ngSubmit)="submitForm(post)">
+                      <form (ngSubmit)="submitForm()">
                         <div class="mb-3">
                           <label for="textArea"></label>
                           <textarea class="mt-3 form-control" id="textArea" name="shareText" [(ngModel)]="shareText" rows="4"></textarea>

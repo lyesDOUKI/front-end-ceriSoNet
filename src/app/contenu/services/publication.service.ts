@@ -198,7 +198,7 @@ export class PublicationService {
       observe: 'response' as 'response',
       withCredentials: true
     };
-
+    console.log("partager le post id : " + post._id)
     return this.http.post<HttpResponse<any>>(this.URI_NODE_API + '/sharepost', dataToSend, options);
   }
   //get post by id

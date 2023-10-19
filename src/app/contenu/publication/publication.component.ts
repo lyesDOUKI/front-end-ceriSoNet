@@ -141,10 +141,13 @@ export class PublicationComponent {
       console.error("Une erreur s'est produite lors de la récupération du post : " + error);
     }
   }
-  openshareModal()
+
+  postToShare !: Publication;
+  openshareModal(post : Publication)
   {
     if(localStorage.getItem("objetUser"))
     {
+      this.postToShare  = post;
       this.modalRef = this.modalService.open(this.shareModal, { centered: true });
     }else
     {
@@ -156,13 +159,13 @@ export class PublicationComponent {
   
   shareText : string = "";
   imageURL : string = "";
-  submitForm(post : Publication)
+  submitForm()
   {
     if(localStorage.getItem("objetUser"))
     {
       this.spinnerOnForShare = true;
       this.publicationServie.setEtatShare(true);
-      this.sharePost(post, this.shareText, this.imageURL);
+      this.sharePost(this.postToShare, this.shareText, this.imageURL);
       this.modalRef?.close();
     }else{
       this.publicationServie.setEtatShare(false);
