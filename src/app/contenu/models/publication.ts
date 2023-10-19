@@ -5,6 +5,7 @@ export class Publication {
     hour!: string;
     body!: string;
     createdBy!: number;
+    shared!: string;
     images!: images;
     title!: string;
     likes!: number;

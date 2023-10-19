@@ -36,6 +36,13 @@
             <p>
                 <span>{{post.likes}} J'aime</span>
             </p>
+            <div class="d-flex justify-content-end">
+                <button *ngIf="post.shared" class="mb-3 btn btn-md btn-info rounded-pill shadow">
+                    Partagé depuis
+                </button>
+            </div>
+            
+            
         </div>
         <app-commentaires [post]="post"></app-commentaires>
     </div>
