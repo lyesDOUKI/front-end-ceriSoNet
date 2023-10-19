@@ -2,8 +2,11 @@
  <img src="{{realUser.avatar}}" alt="avatar" class="img-fluid rounded-circle" style="width: 200px;">
   <h5 class="my-3">{{realUser.identifiant}}</h5>
   <p class="text-muted">{{realUser.fullName()}}</p>
-  <h5>Date et heure de connexion</h5>
-  <p  style="font-style: italic;">{{ lastLoginDateTime }}</p>
+  <div *ngIf="lastLoginDateTime">
+    <h5>Date et heure de connexion</h5>
+  <p  style="font-style: italic;" >{{ lastLoginDateTime }}</p>
+  </div>
+  
   <button class="btn btn-info btn-lg rounded-pill shadow mb" (click)="onLogout()">
     <i class="bi bi-person"></i> Se Déconnecter
 </button>

@@ -33,4 +33,16 @@ export class LoginService {
     };
     return this.http.post(this.URI_NODE_API + '/logout',{}, options);
   }
+  //subject of string 
+  usersOn()
+  {
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      observe : 'response' as 'response',
+      withCredentials: true
+    };
+    return this.http.get<string []>(this.URI_NODE_API + '/usersOn', options);
+  }
 }

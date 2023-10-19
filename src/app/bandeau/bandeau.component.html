@@ -1,12 +1,14 @@
 
-<!-- Navbar -->
 <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light" *ngIf="showScrollToTop">
   <div class="container">
     <div class="d-flex justify-content-center">
       <button class="ms-5 btn btn-info btn-lg rounded-pill shadow" (click)="scrollToTop()">Accueil</button>
     </div>
+
+
   </div>
 </nav>
+
 
 <div class="notification-container">
   <div class="alert alert-warning sticky-notification" *ngIf="isWarningLikes">

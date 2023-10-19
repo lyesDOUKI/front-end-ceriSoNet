@@ -13,7 +13,7 @@ export class AppComponent implements OnInit{
     const socket = io(environment.URI_NODE_API);
     console.log("Hello World!");
     console.log("le serveur est sur le port : ", window.location.port);
-    socket.on('notify', (message) => {
+    socket.on('firstConnect', (message) => {
       console.log(message);
     });
   }

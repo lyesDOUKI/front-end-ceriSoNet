@@ -16,7 +16,7 @@ export class UserComponent {
   constructor(private userShare: UserShareService,
     private loginService : LoginService,
     private router : Router) {
-    
+      this.lastLoginDateTime = localStorage.getItem('lastLoginDateTime');
   }
 
  
@@ -46,14 +46,13 @@ export class UserComponent {
       this.realUser = user;
     });
     }
-    if(localStorage.getItem("lastLoginDateTime") != null)
-    {
-      this.lastLoginDateTime = localStorage.getItem("lastLoginDateTime");
-    }else
-    {
-      const date = new Date();
-      const formattedDate = date.toLocaleString();
-      this.lastLoginDateTime = formattedDate;
-    }
+
+  }
+  formateDate(date : Date) : String
+  {
+    const dateFormat = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+    const heureFormat = date.getHours() + ":" + date.getMinutes();
+    const formattedDate = dateFormat + " " + heureFormat;
+    return formattedDate;
   }
 }
