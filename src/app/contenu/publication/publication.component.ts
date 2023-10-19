@@ -35,8 +35,8 @@ export class PublicationComponent {
   }
     setTimeout(() => {
       this.startIndex += this.pageSize;
-      window.scrollBy(0, -80);
-    }, 1000);
+      window.scrollBy(0, -0);
+    }, 500);
   }
 
   // Une méthode pour revenir à la page précédente

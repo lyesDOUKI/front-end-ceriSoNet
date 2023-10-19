@@ -43,9 +43,8 @@ export class AddPostComponent {
   };
 
 
-  @ViewChild('postForm') postForm!: NgForm;
   submitForm() {
-    if(this.postForm.valid){
+    
       if(localStorage.getItem("objetUser")){
         this.spinnerOn = true;
       console.log('Formulaire ajout post soumis !');
@@ -71,6 +70,7 @@ export class AddPostComponent {
     }else{
       console.log("vous n'etes pas connecté");
       this.publicationService.setEtatAdd(false);
+      this.publicationService.triggerAddSubmit();
     }
     
       // Réinitialisez les valeurs du formulaire si nécessaire.
@@ -81,5 +81,4 @@ export class AddPostComponent {
       };
       this.hashtagQuery = '';
   }
-}
 }
