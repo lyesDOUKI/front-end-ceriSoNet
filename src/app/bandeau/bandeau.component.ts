@@ -175,9 +175,10 @@ export class BandeauComponent implements OnInit {
     });
     socket.on('like', (message) => {
       this.loadUser();
-      this.isNotificationActive = true;
+      
       if(this.user != undefined && message !== this.user.identifiant){
         console.log("socket");
+        this.isNotificationActive = true;
         this.showScrollToTop = false;
         this.isPostLike = true;
         setTimeout(() => {
