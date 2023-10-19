@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Publication } from '../../models/publication';
+import { PublicationService } from '../../services/publication.service';
 
 @Component({
   selector: 'app-shared-post',
@@ -8,6 +9,21 @@ import { Publication } from '../../models/publication';
 })
 export class SharedPostComponent {
 
-  @Input() post !: Publication;
-
+  @Input('sharedPost') sharedPost !: Publication;
+  /*sharedPost !: Publication;
+  constructor(private service : PublicationService)
+  {}
+  getPostById()
+  {
+    this.service.getPublicationById(this.post.shared).subscribe(
+      (response) =>
+      {
+        if(response.body)
+        {
+          this.sharedPost = new Publication(response.body);
+          console.log("is instance of Publication : " + (this.sharedPost instanceof Publication));
+        }
+      }
+    );
+  }*/
 }

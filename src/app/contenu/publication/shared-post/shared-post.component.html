@@ -5,19 +5,19 @@
 </div>
 
 <div class="modal-body">
-    <!-- Insérez ici le template d'affichage d'un post -->
+    <!-- Insérez ici le template d'affichage d'un sharedPost -->
     <div class="card gedf-card">
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="mr-2">
                         <!--
-                        <img class="rounded-circle" width="45" src="{{post.images.url}}" alt="{{post.images.title}}">
+                        <img class="rounded-circle" width="45" src="{{sharedPost.images.url}}" alt="{{sharedPost.images.title}}">
                         -->
                     </div>
                     <div class="ml-2">
-                        <div class="h5 m-0">@ {{post.createdBy}}</div>
-                        <div class="h7 text-muted">{{post.date}}</div>
+                        <div class="h5 m-0">@ {{sharedPost.createdBy}}</div>
+                        <div class="h7 text-muted">{{sharedPost.date}}</div>
                     </div>
                 </div>
             </div>
@@ -27,12 +27,13 @@
                 <h5 class="card-title"></h5>
             </a>
             <p class="card-text">
-                {{post.body}}
+                {{sharedPost.body}}
             </p>
             <div class="mr-2">
-                <img class="img-fluid" src="{{post.images.url}}" alt="{{post.images.title}}">
+                <img class="img-fluid" src="{{sharedPost.images.url}}" alt="{{sharedPost.images.title}}">
             </div>
         </div>
+
        
     </div>
 </div>

@@ -188,4 +188,15 @@ export class PublicationService {
 
     return this.http.post<HttpResponse<any>>(this.URI_NODE_API + '/sharepost', dataToSend, options);
   }
+  //get post by id
+  getPublicationById(id: number) {
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      observe: 'response' as 'response',
+      withCredentials: true
+    };
+    return this.http.get<HttpResponse<Publication>>(this.URI_NODE_API + '/post/' + id, options);
+  }
 }

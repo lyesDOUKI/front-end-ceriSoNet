@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { PublicationService } from '../services/publication.service';
 import { Publication } from '../models/publication';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { firstValueFrom } from 'rxjs';
 @Component({
   selector: 'app-publication',
   templateUrl: './publication.component.html',
@@ -101,8 +102,27 @@ export class PublicationComponent {
     }
     this.publicationServie.triggerLikeSubmit();
   }
-  openLoginModal() {
-    this.modalRef = this.modalService.open(this.loginModal, { centered: true });
+  sharedPost !: Publication;
+  async openLoginModal(post: Publication) {
+    console.log("execution requête");
+    console.log("id shared : " + post.shared);
+  
+    try {
+      const response = await firstValueFrom(this.publicationServie.getPublicationById(post.shared));
+  
+      console.log("récupération de la sharedPost");
+      console.log("response : " + JSON.stringify(response));
+  
+      if (response!.body) {
+        this.sharedPost = new Publication(response!.body);
+        console.log("is instance of Publication : " + (this.sharedPost instanceof Publication));
+        console.log("body : " + this.sharedPost.body);
+      }
+  
+      this.modalRef = this.modalService.open(this.loginModal, { centered: true });
+    } catch (error) {
+      console.error("Une erreur s'est produite lors de la récupération du post : " + error);
+    }
   }
   openshareModal()
   {
