@@ -41,8 +41,15 @@ export class PublicationComponent {
 
   // Une méthode pour revenir à la page précédente
   prevPage() {
-    this.startIndex -= this.pageSize;
-    //window.scrollTo({ top: 0, behavior: 'smooth' });
+    const element = document.querySelector('#lespostes'); // Remplacez 'votre-div-id' par l'ID de votre div cible
+    if (element) {
+    element.scrollIntoView( {behavior: 'smooth', block: 'start'} );
+    
+  }
+    setTimeout(() => {
+      this.startIndex -= this.pageSize;
+      window.scrollBy(0, -0);
+    }, 500);
   }
 
   // Une méthode pour vérifier si la page précédente existe
