@@ -22,6 +22,7 @@ export class BandeauComponent implements OnInit {
   isWarningAddPost : boolean = false;
   isPostOk : boolean = false;
   notifyNewPost : boolean = false;
+  isNotificationActive: boolean = false;
   user : User | undefined | null = null ;
   constructor(private service: UserShareService, private router : Router,
     private publicationService : PublicationService) {}
@@ -33,19 +34,23 @@ export class BandeauComponent implements OnInit {
       console.log("etat : " + this.publicationService.getEtatAdd());
         if(!this.publicationService.getEtatAdd())
         {
+          this.isNotificationActive = true;
           this.showScrollToTop = false;
           this.isWarningAddPost = true;
           setTimeout(() => {
             this.showScrollToTop = true;
             this.isWarningAddPost = false;
+            this.isNotificationActive = false;
           }, 3000);
         }else
         {
           this.showScrollToTop = false;
           this.isPostOk = true;
+          this.isNotificationActive = true;
           setTimeout(() => {
             this.showScrollToTop = true;
             this.isPostOk = false;
+            this.isNotificationActive = false;
           }, 3000);
         }
     });
@@ -55,11 +60,13 @@ export class BandeauComponent implements OnInit {
       console.log("etat : " + this.publicationService.getEtatComment());
         if(!this.publicationService.getEtatComment())
         {
+          this.isNotificationActive = true;
           this.showScrollToTop = false;
           this.isWarningComments = true;
           setTimeout(() => {
             this.showScrollToTop = true;
             this.isWarningComments = false;
+            this.isNotificationActive = false;
           }, 3000);
         }
     });
@@ -68,9 +75,11 @@ export class BandeauComponent implements OnInit {
       console.log("etat : " + this.publicationService.getEtatLike());
         if(!this.publicationService.getEtatLike())
         {
+          this.isNotificationActive = true;
           this.showScrollToTop = false;
           this.isWarningLikes = true;
           setTimeout(() => {
+            this.isNotificationActive = false;
             this.showScrollToTop = true;
             this.isWarningLikes = false;
           }, 3000);
@@ -80,18 +89,22 @@ export class BandeauComponent implements OnInit {
       console.log("formulaire soumis");
       this.user = this.service.getUserObject();
       if(this.user != null){
+        this.isNotificationActive = true;
         window.localStorage.setItem("user",this.user!.identifiant);
         this.showScrollToTop = false;
         this.isSuccess = true;
         setTimeout(() => {
+          this.isNotificationActive = false;
           this.showScrollToTop = true;
           this.isSuccess = false;
         }, 3000);
       }else if(this.user === undefined)
       {
+        this.isNotificationActive = true;
         this.showScrollToTop = false;
         this.isFailedConnect = true;
         setTimeout(() => {
+          this.isNotificationActive = false;
           this.showScrollToTop = true;
           this.isFailedConnect = false;
         }, 3000);
@@ -105,10 +118,12 @@ export class BandeauComponent implements OnInit {
       console.log("this user : " + this.user);
       console.log("identifiant : " + this.user?.identifiant);
       if(this.user != undefined && message !== this.user.identifiant){
+        this.isNotificationActive = true;
         console.log("socket");
         this.showScrollToTop = false;
         this.isUserLogin = true;
         setTimeout(() => {
+          this.isNotificationActive = false;
           this.showScrollToTop = true;
           this.isUserLogin = false;
         }, 3000);
@@ -121,9 +136,11 @@ export class BandeauComponent implements OnInit {
       console.log("identifiant socket logout : " + this.user?.identifiant);
       if(this.user != undefined && message !== this.user.identifiant){
         console.log("socket");
+        this.isNotificationActive = true;
         this.showScrollToTop = false;
         this.isLogout = true;
         setTimeout(() => {
+          this.isNotificationActive = false;
           this.showScrollToTop = true;
           this.isLogout = false;
         }, 3000);
@@ -131,11 +148,13 @@ export class BandeauComponent implements OnInit {
     });
     socket.on('like', (message) => {
       this.loadUser();
+      this.isNotificationActive = true;
       if(this.user != undefined && message !== this.user.identifiant){
         console.log("socket");
         this.showScrollToTop = false;
         this.isPostLike = true;
         setTimeout(() => {
+          this.isNotificationActive = false;
           this.showScrollToTop = true;
           this.isPostLike = false;
         }, 3000);
@@ -144,10 +163,12 @@ export class BandeauComponent implements OnInit {
     socket.on('comment', (message) => {
       this.loadUser();
       if(this.user != undefined && message !== this.user.identifiant){
+        this.isNotificationActive = true;
         console.log("socket");
         this.showScrollToTop = false;
         this.isCommentPost = true;
         setTimeout(() => {
+          this.isNotificationActive = false;
           this.showScrollToTop = true;
           this.isCommentPost = false;
         }, 3000);
@@ -156,10 +177,12 @@ export class BandeauComponent implements OnInit {
     socket.on('addPost', (message) => {
       this.loadUser();
       if(this.user != undefined && message !== this.user.identifiant){
+        this.isNotificationActive = true;
         console.log("socket");
         this.showScrollToTop = false;
         this.notifyNewPost = true;
         setTimeout(() => {
+          this.isNotificationActive = false;
           this.showScrollToTop = true;
           this.notifyNewPost = false;
         }, 3000);

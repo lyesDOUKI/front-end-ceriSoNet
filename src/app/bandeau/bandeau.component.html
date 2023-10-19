@@ -1,5 +1,5 @@
 
-<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light" *ngIf="showScrollToTop">
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light" *ngIf="!isNotificationActive && showScrollToTop">
   <div class="container">
     <div class="d-flex justify-content-center">
       <button class="ms-5 btn btn-info btn-lg rounded-pill shadow" (click)="scrollToTop()">Accueil</button>
