@@ -30,17 +30,19 @@ export class PublicationComponent {
     
     const element = document.querySelector('#lespostes'); // Remplacez 'votre-div-id' par l'ID de votre div cible
     if (element) {
-    element.scrollIntoView({ behavior: 'smooth' });
+    element.scrollIntoView( {behavior: 'smooth', block: 'start'} );
+    
   }
     setTimeout(() => {
       this.startIndex += this.pageSize;
-    }, 500);
+      window.scrollBy(0, -100);
+    }, 1000);
   }
 
   // Une méthode pour revenir à la page précédente
   prevPage() {
     this.startIndex -= this.pageSize;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    //window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   // Une méthode pour vérifier si la page précédente existe
@@ -59,6 +61,7 @@ export class PublicationComponent {
         next : (response) => {
           if(response && response.length > 0)
           {
+            this.startIndex = 0;
             this.listPublications = response;
             this.spinnerOnSharedPost = new Array(this.listPublications.length);
             this.listPublications.forEach((publication) => {
