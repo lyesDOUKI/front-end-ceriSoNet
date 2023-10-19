@@ -3,6 +3,7 @@ import { PublicationService } from '../services/publication.service';
 import { Publication } from '../models/publication';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { firstValueFrom } from 'rxjs';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-publication',
   templateUrl: './publication.component.html',
@@ -19,7 +20,8 @@ export class PublicationComponent {
   @ViewChild('shareModal') shareModal!: NgbModal;
   modalRef?: NgbModalRef;
   constructor(private publicationServie : PublicationService, private el : ElementRef,
-    private modalService : NgbModal,) { }
+    private modalService : NgbModal,
+    private spinner: NgxSpinnerService) { }
   
   nextPage() {
     
@@ -104,6 +106,9 @@ export class PublicationComponent {
   }
   sharedPost !: Publication;
   async openLoginModal(post: Publication) {
+
+
+    this.spinner.show();
     console.log("execution requête");
     console.log("id shared : " + post.shared);
   
@@ -118,7 +123,7 @@ export class PublicationComponent {
         console.log("is instance of Publication : " + (this.sharedPost instanceof Publication));
         console.log("body : " + this.sharedPost.body);
       }
-  
+      this.spinner.hide();
       this.modalRef = this.modalService.open(this.loginModal, { centered: true });
     } catch (error) {
       console.error("Une erreur s'est produite lors de la récupération du post : " + error);

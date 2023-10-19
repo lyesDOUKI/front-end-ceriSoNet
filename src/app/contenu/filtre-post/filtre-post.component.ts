@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { PublicationService } from '../services/publication.service';
 import { NgForm } from '@angular/forms';
+import { NgxSpinner, NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-filtre-post',
@@ -13,7 +14,8 @@ export class FiltrePostComponent {
   hashtagList: string[] = [];
   selected : string = "date";
 
-  constructor(private publicationServie : PublicationService) { }
+  constructor(private publicationServie : PublicationService,
+    ) { }
 
   suggestHashtag(event: any) {
     const inputText = event.target.value;
@@ -44,6 +46,7 @@ export class FiltrePostComponent {
   }
   @ViewChild('login') login!: NgForm;
   onSubmit(){
+
     console.log("choix : " + this.selected);
     if(this.login.valid){
       if(this.hashtagList.length > 0){
@@ -51,7 +54,7 @@ export class FiltrePostComponent {
     }else{
       this.publicationServie.getPublicationByFiltre(this.selected);
     }
-    const element = document.querySelector('#lespostes'); // Remplacez 'votre-div-id' par l'ID de votre div cible
+    const element = document.querySelector('#lespostes'); 
     if (element) {
     element.scrollIntoView({ behavior: 'smooth' });
   }

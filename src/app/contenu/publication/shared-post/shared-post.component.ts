@@ -10,20 +10,5 @@ import { PublicationService } from '../../services/publication.service';
 export class SharedPostComponent {
 
   @Input('sharedPost') sharedPost !: Publication;
-  /*sharedPost !: Publication;
-  constructor(private service : PublicationService)
-  {}
-  getPostById()
-  {
-    this.service.getPublicationById(this.post.shared).subscribe(
-      (response) =>
-      {
-        if(response.body)
-        {
-          this.sharedPost = new Publication(response.body);
-          console.log("is instance of Publication : " + (this.sharedPost instanceof Publication));
-        }
-      }
-    );
-  }*/
+  
 }
