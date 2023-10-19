@@ -35,7 +35,7 @@ export class PublicationComponent {
   }
     setTimeout(() => {
       this.startIndex += this.pageSize;
-      window.scrollBy(0, -100);
+      window.scrollBy(0, -80);
     }, 1000);
   }
 
