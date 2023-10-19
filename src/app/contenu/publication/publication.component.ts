@@ -21,7 +21,7 @@ export class PublicationComponent {
   modalRef?: NgbModalRef;
   spinnerOn : boolean = true;
   spinnerOnForShare : boolean = false;
-  spinnerOnSharedPost : boolean = false;
+  spinnerOnSharedPost : boolean[] = [];
   constructor(private publicationServie : PublicationService, private el : ElementRef,
     private modalService : NgbModal) { }
   
@@ -60,6 +60,7 @@ export class PublicationComponent {
           if(response && response.length > 0)
           {
             this.listPublications = response;
+            this.spinnerOnSharedPost = new Array(this.listPublications.length);
             this.listPublications.forEach((publication) => {
               publication.showComments = false;
             });
@@ -117,11 +118,11 @@ export class PublicationComponent {
     this.publicationServie.triggerLikeSubmit();
   }
   sharedPost !: Publication;
-  async openLoginModal(post: Publication) {
+  async openLoginModal(post: Publication, i : Number) {
 
     console.log("execution requête");
     console.log("id shared : " + post.shared);
-    this.spinnerOnSharedPost = true;
+    this.spinnerOnSharedPost[i as number] = true;
     try {
       const response = await firstValueFrom(this.publicationServie.getPublicationById(post.shared));
   
@@ -134,7 +135,7 @@ export class PublicationComponent {
         console.log("is instance of Publication : " + (this.sharedPost instanceof Publication));
         console.log("body : " + this.sharedPost.body);
       }
-      this.spinnerOnSharedPost = false;
+      this.spinnerOnSharedPost[i as number] = false;
       this.modalRef = this.modalService.open(this.loginModal, { centered: true });
     } catch (error) {
       console.error("Une erreur s'est produite lors de la récupération du post : " + error);

@@ -8,8 +8,8 @@
       <span class="visually-hidden">Loading...</span>
     </div>
   </div>
-<div *ngFor="let post of listPublications!.slice(startIndex, startIndex + pageSize)">
-    <div class="card gedf-card">
+<div *ngFor="let post of listPublications!.slice(startIndex, startIndex + pageSize); let i = index">
+    <div class="mb-4 card gedf-card">
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="d-flex justify-content-between align-items-center">
@@ -77,10 +77,10 @@
                 </button>-->
                 <button class="mb-3 btn btn-md btn-info rounded-pill shadow" 
                 *ngIf="post.shared"
-                (click)="openLoginModal(post)"
-                [disabled]="spinnerOnSharedPost">
-                  <ng-container *ngIf="!spinnerOnSharedPost">Partagé à partir</ng-container>
-                  <div class="d-flex justify-content-center" *ngIf="spinnerOnSharedPost">
+                (click)="openLoginModal(post, i)"
+                [disabled]="spinnerOnSharedPost[i]">
+                  <ng-container *ngIf="!spinnerOnSharedPost[i]">Partagé à partir</ng-container>
+                  <div class="d-flex justify-content-center" *ngIf="spinnerOnSharedPost[i]">
                       <div class="spinner-border" role="status">
                         <span class="visually-hidden">Loading...</span>
                       </div>
