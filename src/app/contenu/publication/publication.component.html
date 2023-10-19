@@ -69,7 +69,9 @@
                   </ng-template> 
             <p>
                 <span>{{post.likes}} J'aime</span>
+                <span class="ms-2">{{post.comments.length}} Commentaires</span>
             </p>
+            
             <div class="d-flex justify-content-end">
                 <!--<button *ngIf="post.shared" class="mb-3 btn btn-md btn-info rounded-pill shadow" 
                 (click)="openLoginModal(post)">
