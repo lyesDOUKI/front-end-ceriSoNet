@@ -26,6 +26,24 @@ export class PublicationService {
   private bouttonAddSubject = new Subject<void>();
   addSubmit = this.bouttonAddSubject.asObservable();
   etatAdd : boolean = false;
+
+  private boutonShareSubject = new Subject<void>();
+  shareSubmit = this.boutonShareSubject.asObservable();
+  etatShare : boolean = false;
+
+  triggerShareSubmit() {
+      
+      this.boutonShareSubject.next();
+      
+    }
+  getEtatShare()
+  {
+    return this.etatShare;
+  }
+  setEtatShare(etat : boolean)
+  {
+    this.etatShare = etat;
+  }
   triggerAddSubmit() {
     
     this.bouttonAddSubject.next();
@@ -156,5 +174,18 @@ export class PublicationService {
     };
 
     return this.http.post<HttpResponse<any>>(this.URI_NODE_API + '/addpost', dataToSend, options);
+  }
+  sharePublication(post : Publication, shareText : string, imageURL : string) {
+    const dataToSend = {postid: post._id, body : post.body, images : imageURL, hashtags : post.hashtags,
+    shareText : shareText};
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      observe: 'response' as 'response',
+      withCredentials: true
+    };
+
+    return this.http.post<HttpResponse<any>>(this.URI_NODE_API + '/sharepost', dataToSend, options);
   }
 }

@@ -15,6 +15,7 @@ export class PublicationComponent {
   pageSize: number = 5; // Nombre de publications par page
   startIndex: number = 0; // Index de départ pour l'affichage des publications
   @ViewChild('loginModal') loginModal!: NgbModal;
+  @ViewChild('shareModal') shareModal!: NgbModal;
   modalRef?: NgbModalRef;
   constructor(private publicationServie : PublicationService, private el : ElementRef,
     private modalService : NgbModal,) { }
@@ -102,5 +103,46 @@ export class PublicationComponent {
   }
   openLoginModal() {
     this.modalRef = this.modalService.open(this.loginModal, { centered: true });
+  }
+  openshareModal()
+  {
+    if(localStorage.getItem("objetUser"))
+    {
+      this.modalRef = this.modalService.open(this.shareModal, { centered: true });
+    }else
+    {
+      this.publicationServie.setEtatShare(false);
+      console.log("vous n'etes pas connecté");
+      this.publicationServie.triggerShareSubmit();
+    }
+  }
+  
+  shareText : string = "";
+  imageURL : string = "";
+  submitForm(post : Publication)
+  {
+    if(localStorage.getItem("objetUser"))
+    {
+      this.publicationServie.setEtatShare(true);
+      this.sharePost(post, this.shareText, this.imageURL);
+      this.modalRef?.close();
+    }else{
+      this.publicationServie.setEtatShare(false);
+      console.log("vous n'etes pas connecté");
+    }
+    this.publicationServie.triggerShareSubmit();
+
+  }
+  sharePost(post : Publication, shareText : string, imageURL : string)
+  {
+    this.publicationServie.sharePublication(post, shareText, imageURL).subscribe(
+     (response) =>
+     {
+        if(response.body)
+        {
+          console.log("c'est good");
+        }
+     }
+    );
   }
 }

@@ -21,14 +21,41 @@ export class BandeauComponent implements OnInit {
   isCommentPost : boolean = false;
   isWarningAddPost : boolean = false;
   isPostOk : boolean = false;
+  isShareOk : boolean = false;
   notifyNewPost : boolean = false;
   isNotificationActive: boolean = false;
+  isWarningShare : boolean = false;
   user : User | undefined | null = null ;
   constructor(private service: UserShareService, private router : Router,
     private publicationService : PublicationService) {}
 
  
   ngOnInit() {
+    this.publicationService.shareSubmit.subscribe(() => {
+      console.log("share submit");
+      console.log("etat : " + this.publicationService.getEtatShare());
+        if(!this.publicationService.getEtatShare())
+        {
+          this.isNotificationActive = true;
+          this.showScrollToTop = false;
+          this.isWarningShare = true;
+          setTimeout(() => {
+            this.showScrollToTop = true;
+            this.isWarningShare = false;
+            this.isNotificationActive = false;
+          }, 3000);
+        }else
+        {
+          this.showScrollToTop = false;
+          this.isShareOk = true;
+          this.isNotificationActive = true;
+          setTimeout(() => {
+            this.showScrollToTop = true;
+            this.isShareOk = false;
+            this.isNotificationActive = false;
+          }, 3000);
+        }
+    });
     this.publicationService.addSubmit.subscribe(() => {
       console.log("add submit");
       console.log("etat : " + this.publicationService.getEtatAdd());
@@ -188,6 +215,7 @@ export class BandeauComponent implements OnInit {
         }, 3000);
       }
     });
+
 }
 showScrollToTop = false;
 

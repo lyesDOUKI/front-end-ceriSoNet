@@ -11,6 +11,11 @@
 
 
 <div class="notification-container">
+  <div class="alert alert-warning sticky-notification" *ngIf="isWarningShare">
+    <div class="container">
+        <b>Attention :</b> Vous devez vous connecter pour partager une publication !
+    </div>
+  </div>
   <div class="alert alert-warning sticky-notification" *ngIf="isWarningLikes">
     <div class="container">
         <b>Attention :</b> Vous devez vous connecter pour aimer une publication !
@@ -59,6 +64,11 @@
   <div class="alert alert-success sticky-notification" *ngIf="isPostOk">
     <div class="container">
         <b>Post ajouter:</b> Yuhuuu! votre publication a bien été enregister !
+    </div>
+  </div>
+  <div class="alert alert-success sticky-notification" *ngIf="isShareOk">
+    <div class="container">
+        <b>Post partager:</b> Yuhuuu! la publication a bien été partager !
     </div>
   </div>
   <div class="alert alert-danger sticky-notification" *ngIf="isFailedConnect">
