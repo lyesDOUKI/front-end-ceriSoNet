@@ -32,7 +32,14 @@
                     </div>
                     <div class="btn-toolbar justify-content-between">
                         <div class="btn-group mt-3">
-                            <button type="submit" class="btn btn-info btn-lg rounded-pill shadow">Publier</button>
+                            <button type="submit" class="btn btn-info btn-lg rounded-pill shadow" [disabled]="spinnerOn">
+                                <ng-container *ngIf="!spinnerOn">Publier</ng-container>
+                                <div class="d-flex justify-content-center" *ngIf="spinnerOn">
+                                    <div class="spinner-border" role="status">
+                                      <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                  </div>
+                                </button>
                         </div>
                     </div>
                 </form>

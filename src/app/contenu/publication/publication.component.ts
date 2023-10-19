@@ -19,9 +19,11 @@ export class PublicationComponent {
   @ViewChild('loginModal') loginModal!: NgbModal;
   @ViewChild('shareModal') shareModal!: NgbModal;
   modalRef?: NgbModalRef;
+  spinnerOn : boolean = true;
+  spinnerOnForShare : boolean = false;
+  spinnerOnSharedPost : boolean = false;
   constructor(private publicationServie : PublicationService, private el : ElementRef,
-    private modalService : NgbModal,
-    private spinner: NgxSpinnerService) { }
+    private modalService : NgbModal) { }
   
   nextPage() {
     
@@ -51,19 +53,29 @@ export class PublicationComponent {
     return this.startIndex + this.pageSize < this.listPublications!.length;
   }
   ngOnInit(): void {
+    console.log("ngOnInit spinner : " + this.spinnerOn);
     this.publicationServie.getPublications().subscribe(
-      (response) => {
-        this.listPublications = [];
-        console.log("changement!! ");
-        console.log("taille resultat : " + response?.length);
-        response?.forEach((publication) => {
-          this.listPublications?.push(new Publication(publication));
-        });
-       
-       console.log("list publication : ");
-       /*this.listPublications?.forEach((publication) => {
-        console.log(publication.images.url);
-       });*/
+      {
+        next : (response) => {
+          if(response && response.length > 0)
+          {
+            this.listPublications = response;
+            this.listPublications.forEach((publication) => {
+              publication.showComments = false;
+            });
+            this.spinnerOn = false;
+            console.log("spinnerOn : " + this.spinnerOn);
+          }
+        },
+        error : (error) => {
+          this.spinnerOn = false;
+          console.error("Une erreur s'est produite lors de la récupération des publications : " + error);
+        },
+        
+        complete : () => {
+          console.log("complete");
+          this.spinnerOn = false;
+        }
       });
        
   }
@@ -107,23 +119,22 @@ export class PublicationComponent {
   sharedPost !: Publication;
   async openLoginModal(post: Publication) {
 
-
-    this.spinner.show();
     console.log("execution requête");
     console.log("id shared : " + post.shared);
-  
+    this.spinnerOnSharedPost = true;
     try {
       const response = await firstValueFrom(this.publicationServie.getPublicationById(post.shared));
   
       console.log("récupération de la sharedPost");
       console.log("response : " + JSON.stringify(response));
-  
+      
       if (response!.body) {
+
         this.sharedPost = new Publication(response!.body);
         console.log("is instance of Publication : " + (this.sharedPost instanceof Publication));
         console.log("body : " + this.sharedPost.body);
       }
-      this.spinner.hide();
+      this.spinnerOnSharedPost = false;
       this.modalRef = this.modalService.open(this.loginModal, { centered: true });
     } catch (error) {
       console.error("Une erreur s'est produite lors de la récupération du post : " + error);
@@ -148,6 +159,7 @@ export class PublicationComponent {
   {
     if(localStorage.getItem("objetUser"))
     {
+      this.spinnerOnForShare = true;
       this.publicationServie.setEtatShare(true);
       this.sharePost(post, this.shareText, this.imageURL);
       this.modalRef?.close();
@@ -161,11 +173,17 @@ export class PublicationComponent {
   sharePost(post : Publication, shareText : string, imageURL : string)
   {
     this.publicationServie.sharePublication(post, shareText, imageURL).subscribe(
-     (response) =>
      {
-        if(response.body)
-        {
-          console.log("c'est good");
+        next : (response) => {
+          if(response.body)
+          {
+            console.log("partage OK");
+            this.spinnerOnForShare = false;
+          }
+        },
+        error : (err) => {
+          console.log("erreur : " + err);
+          this.spinnerOnForShare = false;
         }
      }
     );

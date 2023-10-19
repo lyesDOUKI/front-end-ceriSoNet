@@ -24,9 +24,14 @@
             <form (ngSubmit)="addComment(post, newComment)">
                 <div class="input-group">
                     <input type="text" class="form-control" [(ngModel)]="newComment" name="commentText" required>
-                    <button class="ms-2 btn btn-info btn-lg rounded-pill shadow" type="submit">
-                        <i class="bi bi-arrow-right"></i>
-                    </button>
+                    <button type="submit" class="ms-2 btn btn-info btn-lg rounded-pill shadow" [disabled]="spinnerOn">
+                        <ng-container *ngIf="!spinnerOn"><i class="bi bi-arrow-right"></i></ng-container>
+                        <div class="d-flex justify-content-center" *ngIf="spinnerOn">
+                            <div class="spinner-border" role="status">
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          </div>
+                        </button>
                 </div>
             </form>
         </div>

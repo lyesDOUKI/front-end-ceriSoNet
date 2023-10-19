@@ -1,9 +1,13 @@
-<div id="lespostes" class="text-center bg-info shadow text-white p-3">
+<div id="lespostes" class="text-center bg-info shadow text-white p-3" *ngIf="!spinnerOn">
     <h2>Les Publications</h2>
     <br>
     <p>Explorez nos dernières publications passionnantes</p>
   </div>
-  
+  <div class="d-flex justify-content-center mb-4 mt-4" *ngIf="spinnerOn">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
 <div *ngFor="let post of listPublications!.slice(startIndex, startIndex + pageSize)">
     <div class="card gedf-card">
         <div class="card-header">
@@ -51,7 +55,14 @@
                           <label for="imageUrl">URL de l'image</label>
                           <input type="text" class="mt-3 form-control" id="imageUrl" name="imageURL" [(ngModel)]="imageURL">
                         </div>
-                        <button type="submit" class="btn btn-md btn-info rounded-pill shadow">Partager</button>
+                        <button type="submit" class="mt-3 btn btn-info btn-lg rounded-pill shadow" [disabled]="spinnerOnForShare">
+                          <ng-container *ngIf="!spinnerOnForShare">Partager</ng-container>
+                          <div class="d-flex justify-content-center" *ngIf="spinnerOnForShare">
+                              <div class="spinner-border" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                              </div>
+                            </div>
+                          </button>
                       </form>
                     </div>
                   </div>
@@ -60,9 +71,21 @@
                 <span>{{post.likes}} J'aime</span>
             </p>
             <div class="d-flex justify-content-end">
-                <button *ngIf="post.shared" class="mb-3 btn btn-md btn-info rounded-pill shadow" (click)="openLoginModal(post)">
+                <!--<button *ngIf="post.shared" class="mb-3 btn btn-md btn-info rounded-pill shadow" 
+                (click)="openLoginModal(post)">
                     Partagé à partir
-                </button>
+                </button>-->
+                <button class="mb-3 btn btn-md btn-info rounded-pill shadow" 
+                *ngIf="post.shared"
+                (click)="openLoginModal(post)"
+                [disabled]="spinnerOnSharedPost">
+                  <ng-container *ngIf="!spinnerOnSharedPost">Partagé à partir</ng-container>
+                  <div class="d-flex justify-content-center" *ngIf="spinnerOnSharedPost">
+                      <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                    </div>
+                  </button>
             </div>
             
             

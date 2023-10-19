@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, firstValueFrom } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
 import { Publication } from '../models/publication';
 
@@ -107,7 +107,7 @@ export class PublicationService {
     return this.publications$;
   }
 
-  getPublicationByFiltreHashtag(trie: string, filtre: string[]) {
+  async getPublicationByFiltreHashtag(trie: string, filtre: string[]) {
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -116,14 +116,20 @@ export class PublicationService {
       withCredentials: true
     };
 
-    this.http.get<Publication[]>(this.URI_NODE_API + '/publication/' + trie + '/' + filtre.join(','), options).subscribe(
-      (data) => {
-        this.publicationsSubject.next(data.body);
-      }
-    );
+    try {
+      const response = await firstValueFrom(this.http.
+      get<Publication[]>(this.URI_NODE_API + '/publication/' + trie + '/' + filtre.join(','), options));
+      console.log("dans le next data");
+      this.publicationsSubject.next(response!.body);
+      this.spinnerOn = false;
+      console.log("spinner dans service : " + this.spinnerOn);
+    } catch (error) {
+      this.spinnerOn = false;
+      console.error("Une erreur s'est produite lors de la récupération des publications : " + error);
+    }
   }
 
-  getPublicationByFiltre(trie: string) {
+  async getPublicationByFiltre(trie: string) {
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -131,13 +137,20 @@ export class PublicationService {
       observe: 'response' as 'response',
       withCredentials: true
     };
-
-    this.http.get<Publication[]>(this.URI_NODE_API + '/publication/' + trie, options).subscribe(
-      (data) => {
-        this.publicationsSubject.next(data.body);
-      }
-    );
+  
+    try {
+      const response = await firstValueFrom(this.http.
+      get<Publication[]>(this.URI_NODE_API + '/publication/' + trie, options));
+      console.log("dans le next data");
+      this.publicationsSubject.next(response!.body);
+      this.spinnerOn = false;
+      console.log("spinner dans service : " + this.spinnerOn);
+    } catch (error) {
+      this.spinnerOn = false;
+      console.error("Une erreur s'est produite lors de la récupération des publications : " + error);
+    }
   }
+  
   likePublication(id: number) {
     const dataToSend = {id : id};
     const options = {
@@ -198,5 +211,15 @@ export class PublicationService {
       withCredentials: true
     };
     return this.http.get<HttpResponse<Publication>>(this.URI_NODE_API + '/post/' + id, options);
+  }
+
+  spinnerOn : boolean = false;
+  setSpinnerOn(etat : boolean)
+  {
+    this.spinnerOn = etat;
+  }
+  getSpinnerOn()
+  {
+    return this.spinnerOn;
   }
 }

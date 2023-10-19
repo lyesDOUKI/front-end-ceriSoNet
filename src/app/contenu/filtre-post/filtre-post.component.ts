@@ -13,7 +13,7 @@ export class FiltrePostComponent {
   suggestedHashtag: string = '';
   hashtagList: string[] = [];
   selected : string = "date";
-
+  spinnerOn : boolean = false;
   constructor(private publicationServie : PublicationService,
     ) { }
 
@@ -45,21 +45,27 @@ export class FiltrePostComponent {
     this.selected = event.target.value;
   }
   @ViewChild('login') login!: NgForm;
-  onSubmit(){
-
+  async onSubmit(){
+    
     console.log("choix : " + this.selected);
     if(this.login.valid){
+      this.spinnerOn = true;
       if(this.hashtagList.length > 0){
-      this.publicationServie.getPublicationByFiltreHashtag(this.selected, this.hashtagList);
+      await this.publicationServie.getPublicationByFiltreHashtag(this.selected, this.hashtagList);
+      this.spinnerOn = this.publicationServie.getSpinnerOn();
     }else{
-      this.publicationServie.getPublicationByFiltre(this.selected);
+      
+      await this.publicationServie.getPublicationByFiltre(this.selected);
+      this.spinnerOn = this.publicationServie.getSpinnerOn();
     }
-    const element = document.querySelector('#lespostes'); 
+   /* const element = document.querySelector('#lespostes'); 
     if (element) {
     element.scrollIntoView({ behavior: 'smooth' });
-  }
+      }*/
+     
+    
   
 
-}
+  }
 }
 }

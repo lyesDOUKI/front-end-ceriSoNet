@@ -4,6 +4,7 @@ import {UserShareService} from '../services/user-share.service'
 import { LoginService} from '../services/login.service';
 import { Router } from '@angular/router';
 import { User } from '../models/user';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-login',
@@ -12,13 +13,14 @@ import { User } from '../models/user';
 })
 export class LoginComponent {
 
-  
+  spinnerOn : boolean = false;
   ngOnInit(): void {
     if(localStorage.getItem("user") != null){
       this.isLoggedIn = true;
       console.log("user local storage : " + localStorage.getItem("user"));
     }
     console.log("j observe depuis login component, isLoggedIn : " + this.isLoggedIn);
+
     this.userShare.getUser().subscribe((user) => {
       console.log("j observe depuis login component")
       if(user)
@@ -40,6 +42,7 @@ export class LoginComponent {
       {}
 
   onSubmit() {
+    this.spinnerOn = true;
     this.loginService.login(this.info.username, this.info.password).subscribe({
       next :Response => {
         console.log("status : " + Response.status);
@@ -56,13 +59,14 @@ export class LoginComponent {
           const currentDate = new Date();
           const formattedDate = currentDate.toLocaleString();
           localStorage.setItem('lastLoginDateTime', formattedDate);
-
+          this.spinnerOn = false;
           this.userShare.triggerFormSubmit();
           //location.reload();
           this.router.navigate(['']);
         }
       },
       error : error => {
+        this.spinnerOn = false;
         console.log("identfiant ou mot de passe incorrect " + error.error);
         this.userShare.setUser(undefined);
         

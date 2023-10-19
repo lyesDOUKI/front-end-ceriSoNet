@@ -9,9 +9,15 @@
         <input type="password" id="password" name="password" [(ngModel)]="info.password" class="form-control" placeholder="Entrez votre mot de passe" required>
     </div>
     <div class="text-center">
-        <button class="btn btn-info btn-lg rounded-pill shadow">
-            <i class="bi bi-person"></i>
-            Se connecter</button>
+        <button class="btn btn-info btn-lg rounded-pill shadow" [disabled]="spinnerOn">
+            <i class="bi bi-person" *ngIf="!spinnerOn"></i>
+            <ng-container *ngIf="!spinnerOn">Se connecter</ng-container>
+            <div class="d-flex justify-content-center" *ngIf="spinnerOn">
+                <div class="spinner-border" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </div>
+            </button>
     </div>
     
 </form>

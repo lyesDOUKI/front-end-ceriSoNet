@@ -13,7 +13,7 @@ export class CommentairesComponent {
   newComment : string = "";
   date : string = "";
   hour : string = "";
-
+  spinnerOn : boolean = false;
   constructor(private publicationService : PublicationService)
   {}
   addComment(post: Publication, newComment: string): void {
@@ -24,6 +24,7 @@ export class CommentairesComponent {
    console.log("new comment : " + newComment);
    if(localStorage.getItem("objetUser"))
    {
+    this.spinnerOn = true;
     this.publicationService.setEtatComment(true);
     console.log("tu peux soumettre ce commentaire");
     const currentDate = new Date();
@@ -38,8 +39,13 @@ export class CommentairesComponent {
             var postTmp = new Publication(response.body);
             console.log("is instance of Publication : " + (postTmp instanceof Publication));
             console.log("comments : " + postTmp.comments);
+            this.spinnerOn = false;
             post.comments = postTmp.comments;
           }
+        },
+        error : (err) => {
+          console.log("erreur : " + err);
+          this.spinnerOn = false;
         }
       }
     );

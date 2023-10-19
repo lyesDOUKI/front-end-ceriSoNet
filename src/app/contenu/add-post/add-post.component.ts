@@ -8,6 +8,7 @@ import { PublicationService } from '../services/publication.service';
 })
 export class AddPostComponent {
 
+  spinnerOn : boolean = false;
   constructor(private publicationService : PublicationService) { }
   hashtagQuery: string = '';
   suggestedHashtag: string = '';
@@ -42,18 +43,24 @@ export class AddPostComponent {
 
 
   submitForm() {
+    this.spinnerOn = true;
       if(localStorage.getItem("objetUser")){
-        this.publicationService.setEtatAdd(true);
       console.log('Formulaire ajout post soumis !');
       console.log('Données du formulaire :', this.post);
       this.publicationService.addPublication(
         this.post.body,
         this.post.images,
         this.post.hashtags
-      ).subscribe((respose) =>{
-        console.log("status : " + respose.status);
-        if(respose.status == 200){
-          console.log("publication ajouté");
+      ).subscribe({
+        next: () => {
+          this.publicationService.setEtatAdd(true);
+          console.log('Publication ajoutée !');
+          this.spinnerOn = false;
+        },
+        error: (err) => {
+          console.log('Erreur lors de l\'ajout de la publication :', err);
+          this.spinnerOn = false;
+          this.publicationService.setEtatAdd(false);
         }
       });
     }else{

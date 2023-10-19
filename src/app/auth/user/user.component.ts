@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class UserComponent {
 
+  spinnerOn : boolean = false;
   realUser ?: User;
   userSotre : String | null = null;
   lastLoginDateTime : String | null = null;
@@ -22,12 +23,14 @@ export class UserComponent {
  
   onLogout()
   {
+    this.spinnerOn = true;
     this.loginService.logout().subscribe(
       () => {
         console.log("logout");
         this.userShare.setUser(undefined);
         this.realUser = undefined;
         localStorage.clear();
+        this.spinnerOn = false;
         this.router.navigate(['/login']);
         location.reload();
         

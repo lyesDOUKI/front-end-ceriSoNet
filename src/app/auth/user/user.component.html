@@ -7,7 +7,13 @@
   <p  style="font-style: italic;" >{{ lastLoginDateTime }}</p>
   </div>
   
-  <button class="btn btn-info btn-lg rounded-pill shadow mb" (click)="onLogout()">
-    <i class="bi bi-person"></i> Se Déconnecter
-</button>
+  <button class="btn btn-info btn-lg rounded-pill shadow" [disabled]="spinnerOn" (click)="onLogout()">
+    <i class="bi bi-person" *ngIf="!spinnerOn"></i>
+    <ng-container *ngIf="!spinnerOn">Se déconnecter</ng-container>
+    <div class="d-flex justify-content-center" *ngIf="spinnerOn">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    </button>
 </div>
