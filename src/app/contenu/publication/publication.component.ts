@@ -259,6 +259,7 @@ export class PublicationComponent {
   }
   sharePost(post : Publication, shareText : string, imageURL : string)
   {
+    console.log("envoi avec l'image : " + imageURL);
     this.publicationServie.sharePublication(post, shareText, imageURL).subscribe(
      {
         next : (response) => {

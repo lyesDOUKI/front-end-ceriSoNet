@@ -211,7 +211,7 @@ export class PublicationService {
     return this.http.post<HttpResponse<any>>(this.URI_NODE_API + '/addpost', dataToSend, options);
   }
   sharePublication(post : Publication, shareText : string, imageURL : string) {
-    const dataToSend = {postid: post._id, body : post.body, images : imageURL, hashtags : post.hashtags,
+    const dataToSend = {postid: post._id, body : post.body, imageURL : imageURL, hashtags : post.hashtags,
     shareText : shareText};
     const options = {
       headers: new HttpHeaders({
