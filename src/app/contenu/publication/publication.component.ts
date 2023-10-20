@@ -126,8 +126,41 @@ export class PublicationComponent {
   private handleDataLoaded() {
     
     console.log("Données des utilisateurs et des publications chargées avec succès.");
-    console.log("publications : " + this.listPublications);
-    console.log("users : " + this.listUsers?.length);
+    //chercher le created by dans listUsers
+    this.listPublications?.forEach((publication) => {
+     
+      const user = this.listUsers?.find((user) => {
+        return user.id === publication.createdBy;
+      });
+      if (user) {
+        console.log("user trouvé, maj des données de la publication");
+        publication.identifiantAuteur = user.identifiant;
+        publication.nomAuteur = user.nom;
+        publication.prenomAuteur = user.prenom;
+        if(user.avatar)
+          publication.avatarAuteur = user.avatar;
+        else
+          publication.avatarAuteur = "https://static.vecteezy.com/system/resources/thumbnails/009/734/564/small/default-avatar-profile-icon-of-social-media-user-vector.jpg";
+      }
+    });
+    //pour les commentaires : 
+    this.listPublications?.forEach((publication) => {
+      publication.comments.forEach((comment) => {
+        const user = this.listUsers?.find((user) => {
+          return user.id === comment.commentedBy;
+        });
+        if (user) {
+          console.log("user trouvé, maj des données de la publication");
+          comment.identifiantAuteur = user.identifiant;
+          comment.nomAuteur = user.nom;
+          comment.prenomAuteur = user.prenom;
+          if(user.avatar)
+            comment.avatarAuteur = user.avatar;
+          else
+            comment.avatarAuteur = "https://static.vecteezy.com/system/resources/thumbnails/009/734/564/small/default-avatar-profile-icon-of-social-media-user-vector.jpg";
+        }
+      });
+    });
   }
   
   

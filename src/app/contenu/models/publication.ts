@@ -15,6 +15,10 @@ export class Publication {
         Object.assign(this, obj);
     }
     showComments : boolean = false;
+    identifiantAuteur !: string;
+    nomAuteur !: string;
+    prenomAuteur !: string;
+    avatarAuteur !: string;
   }
   
   class Comment {
@@ -25,6 +29,10 @@ export class Publication {
     constructor(obj: any) {
         Object.assign(this, obj);
     }
+    identifiantAuteur !: string;
+    nomAuteur !: string;
+    prenomAuteur !: string;
+    avatarAuteur !: string;
   }
   
   class images {

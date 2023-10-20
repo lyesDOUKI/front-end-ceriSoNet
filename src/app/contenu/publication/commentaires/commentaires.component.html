@@ -7,7 +7,9 @@
                         <div class="d-flex justify-content-between align-items-center">
                         
                             <div class="ml-2">
-                                <div class="h5 m-0">@{{comment.commentedBy}}</div>
+                                <div class="h5 m-0">@{{comment.identifiantAuteur}}
+                                    <span class="h7 text-muted">({{comment.nomAuteur + " " + comment.prenomAuteur}})</span>
+                                </div>
                                 <div class="h7 text-muted">{{comment.date}} {{comment.hour}}</div>
                             </div>
                         </div>
