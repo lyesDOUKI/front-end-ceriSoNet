@@ -5,7 +5,7 @@ export class User {
     prenom!: string;
     avatar!: string;
     statut_connexion!: number;
-    date_connection !: string;
+    date_co !: string;
     constructor(obj:any) {
         Object.assign(this, obj);
     }

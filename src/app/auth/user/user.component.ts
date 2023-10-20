@@ -13,7 +13,7 @@ export class UserComponent {
   spinnerOn : boolean = false;
   realUser ?: User;
   userSotre : String | null = null;
-  lastLoginDateTime : String | null = null;
+  lastLoginDateTime : string | undefined | null;
   constructor(private userShare: UserShareService,
     private loginService : LoginService,
     private router : Router) {
@@ -38,6 +38,7 @@ export class UserComponent {
   }
   ngOnInit() : void {
     //location.reload();
+    
     if(localStorage.getItem("objetUser") != null)
     {
      console.log("objet user : " + localStorage.getItem("objetUser"));
@@ -47,9 +48,9 @@ export class UserComponent {
     {
       this.userShare.getUser().subscribe((user) => {
       this.realUser = user;
+      this.lastLoginDateTime = this.realUser?.date_co;
     });
     }
-
   }
   formateDate(date : Date) : String
   {

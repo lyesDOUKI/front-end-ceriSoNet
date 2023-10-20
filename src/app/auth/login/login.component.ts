@@ -50,15 +50,13 @@ export class LoginComponent {
           this.isLoggedIn = true;
           this.user = new User(Response.body);
           this.userShare.setUser(this.user);
-          
+          console.log("date de co : "  + this.user.date_co);
           console.log("is instance of User : ", this.user instanceof User);
           console.log("identfiant : " + this.user.identifiant);
           console.log("fullname :  " + this.user.fullName());
           localStorage.setItem("user",this.user.identifiant);
           localStorage.setItem("objetUser", JSON.stringify(this.user));
-          const currentDate = new Date();
-          const formattedDate = currentDate.toLocaleString();
-          localStorage.setItem('lastLoginDateTime', formattedDate);
+          localStorage.setItem('lastLoginDateTime', this.user.date_co);
           this.spinnerOn = false;
           this.userShare.triggerFormSubmit();
           //location.reload();
