@@ -24,14 +24,19 @@ export class AddPostComponent {
   }
 
   addHashtag() {
-    if (this.hashtagQuery.length > 1 && !this.post.hashtags.includes(this.hashtagQuery)) {
-      this.post.hashtags.push(this.hashtagQuery);
+
+    if (this.hashtagQuery.length > 1 && !this.hashtagList.includes(this.hashtagQuery)) {
+      this.hashtagList.push(this.hashtagQuery);
     }
     this.hashtagQuery = '';
   }
   removeHashtag(hashtag: string) {
     // Supprimer un hashtag de la liste
+    console.log(this.hashtagList);
     const index = this.hashtagList.indexOf(hashtag);
+    console.log("dans le supprime");
+    console.log("le hashtag : " + hashtag);
+    console.log("l'index : " + index);
     if (index !== -1) {
       this.hashtagList.splice(index, 1);
     }

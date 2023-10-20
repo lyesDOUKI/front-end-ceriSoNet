@@ -31,9 +31,9 @@
                         <button type="button" (click)="addHashtag()" class="ms-2 btn btn-info btn-lg rounded-pill shadow">Ajouter</button>
                     </div>
                     <div class="mt-2 mb-2 hashtag-list d-flex">
-                        <div *ngFor="let hashtag of post.hashtags" class="me-2">
+                        <div *ngFor="let hashtag of hashtagList" class="me-2">
                             {{ hashtag }}
-                            <button (click)="removeHashtag(hashtag)" class="ms-2 mt-2 mb-2 btn btn-danger btn-sm rounded-pill shadow">Supprimer</button>
+                            <button type="button" (click)="removeHashtag(hashtag)" class="ms-2 mt-2 mb-2 btn btn-danger btn-sm rounded-pill shadow">Supprimer</button>
                         </div>
                     </div>
                     <div class="btn-toolbar justify-content-between">

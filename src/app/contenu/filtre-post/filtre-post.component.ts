@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { PublicationService } from '../services/publication.service';
 import { NgForm } from '@angular/forms';
-import { NgxSpinner, NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-filtre-post',
@@ -51,10 +50,11 @@ export class FiltrePostComponent {
     if(this.login.valid){
       this.spinnerOn = true;
       if(this.hashtagList.length > 0){
+        console.log("il y a des hashtag");
       await this.publicationServie.getPublicationByFiltreHashtag(this.selected, this.hashtagList);
       this.spinnerOn = this.publicationServie.getSpinnerOn();
     }else{
-      
+      console.log("non hashtag");
       await this.publicationServie.getPublicationByFiltre(this.selected);
       this.spinnerOn = this.publicationServie.getSpinnerOn();
     }
