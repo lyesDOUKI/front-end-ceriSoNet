@@ -4,6 +4,7 @@ import { Publication } from '../models/publication';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { firstValueFrom } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { User } from 'src/app/auth/models/user';
 @Component({
   selector: 'app-publication',
   templateUrl: './publication.component.html',
@@ -12,6 +13,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class PublicationComponent {
 
   listPublications: Publication[] | null | undefined = [];
+  listUsers: User[] | null | undefined = [];
   showComments : boolean = false;
   newComment : String = "";
   pageSize: number = 5; // Nombre de publications par page
@@ -62,12 +64,29 @@ export class PublicationComponent {
     return this.startIndex + this.pageSize < this.listPublications!.length;
   }
   ngOnInit(): void {
-    console.log("ngOnInit spinner : " + this.spinnerOn);
+    let usersLoaded = false;
+    let publicationsLoaded = false;
+  
+    this.publicationServie.getUsers().subscribe(
+      {
+        next: (response) => {
+          
+          if (response && response.length > 0) {
+            this.listUsers = response;
+            usersLoaded = true;
+  
+            if (publicationsLoaded) {
+              this.handleDataLoaded();
+            }
+          }
+        }
+      }
+    );
+  
     this.publicationServie.getPublications().subscribe(
       {
-        next : (response) => {
-          if(response && response.length > 0)
-          {
+        next: (response) => {
+          if (response && response.length > 0) {
             this.startIndex = 0;
             this.listPublications = response;
             this.spinnerOnSharedPost = new Array(this.listPublications.length);
@@ -75,21 +94,42 @@ export class PublicationComponent {
               publication.showComments = false;
             });
             this.spinnerOn = false;
-            console.log("spinnerOn : " + this.spinnerOn);
+            publicationsLoaded = true;
+  
+            if (usersLoaded) {
+              this.handleDataLoaded();
+            }
           }
         },
-        error : (error) => {
+        error: (error) => {
           this.spinnerOn = false;
           console.error("Une erreur s'est produite lors de la récupération des publications : " + error);
+          publicationsLoaded = true;
+  
+          if (usersLoaded) {
+            this.handleDataLoaded();
+          }
         },
-        
-        complete : () => {
+        complete: () => {
           console.log("complete");
           this.spinnerOn = false;
+          publicationsLoaded = true;
+  
+          if (usersLoaded) {
+            this.handleDataLoaded();
+          }
         }
-      });
-       
+      }
+    );
   }
+  // Cette méthode est appelée lorsque les données des utilisateurs et des publications sont chargées.
+  private handleDataLoaded() {
+    
+    console.log("Données des utilisateurs et des publications chargées avec succès.");
+    console.log("publications : " + this.listPublications);
+    console.log("users : " + this.listUsers?.length);
+  }
+  
   
   toggleComments(post: Publication) {
     this.listPublications?.forEach((publication) => {

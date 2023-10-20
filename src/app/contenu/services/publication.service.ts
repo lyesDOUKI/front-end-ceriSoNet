@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { BehaviorSubject, Observable, Subject, firstValueFrom } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
 import { Publication } from '../models/publication';
+import { User } from 'src/app/auth/models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,9 @@ export class PublicationService {
 
   private publicationsSubject: BehaviorSubject<Publication[] | null> = new BehaviorSubject<Publication[] | null>([]);
   public publications$: Observable<Publication[] | null> = this.publicationsSubject.asObservable();
+
+  private usersSubject: BehaviorSubject<User[] | null> = new BehaviorSubject<User[] | null>([]);
+  public users$: Observable<User[] | null> = this.usersSubject.asObservable();
 
   private buttonLikeSubject = new Subject<void>();
 
@@ -85,6 +89,7 @@ export class PublicationService {
   }
   constructor(private http: HttpClient) {
     this.loadPublications();
+    this.loadUsers();
   }
 
   loadPublications() {
@@ -102,11 +107,28 @@ export class PublicationService {
       }
     );
   }
+  users : User[] | null= [];
+ loadUsers() {
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      observe: 'response' as 'response',
+      withCredentials: true
+    };
 
+    this.http.get<User[]>(this.URI_NODE_API + '/getAllUsers', options).subscribe(
+      (data) => {
+        this.usersSubject.next(data.body);
+      }
+    );
+  }
   getPublications() {
     return this.publications$;
   }
-
+  getUsers() {
+    return this.users$;
+  }
   async getPublicationByFiltreHashtag(trie: string, filtre: string[]) {
     const options = {
       headers: new HttpHeaders({
