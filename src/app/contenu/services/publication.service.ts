@@ -144,6 +144,7 @@ export class PublicationService {
       console.log("dans le next data");
       if(response!.body?.length === 0)
       {
+        console.log("dans la condition et length = " + response!.body?.length);
         this.isBadResult = true;
       }
       this.publicationsSubject.next(response!.body);

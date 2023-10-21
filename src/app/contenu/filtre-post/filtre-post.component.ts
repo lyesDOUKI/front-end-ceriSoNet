@@ -68,6 +68,7 @@ export class FiltrePostComponent {
     if(this.isBadResult){
       setTimeout(() => {
         this.isBadResult = false;
+        this.publicationServie.setIsBadResult(false);
       }, 2000);
     }
   
