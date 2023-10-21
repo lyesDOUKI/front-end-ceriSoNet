@@ -142,6 +142,10 @@ export class PublicationService {
       const response = await firstValueFrom(this.http.
       get<Publication[]>(this.URI_NODE_API + '/publication/' + trie + '/' + filtre.join(','), options));
       console.log("dans le next data");
+      if(response!.body?.length === 0)
+      {
+        this.isBadResult = true;
+      }
       this.publicationsSubject.next(response!.body);
       this.spinnerOn = false;
       console.log("spinner dans service : " + this.spinnerOn);
@@ -243,5 +247,14 @@ export class PublicationService {
   getSpinnerOn()
   {
     return this.spinnerOn;
+  }
+  isBadResult : boolean = false;
+  getIsBadResult()
+  {
+    return this.isBadResult;
+  }
+  setIsBadResult(etat : boolean)
+  {
+    this.isBadResult = etat;
   }
 }

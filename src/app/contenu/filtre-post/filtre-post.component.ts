@@ -44,6 +44,7 @@ export class FiltrePostComponent {
     this.selected = event.target.value;
   }
   @ViewChild('login') login!: NgForm;
+  isBadResult : boolean = false;
   async onSubmit(){
     
     console.log("choix : " + this.selected);
@@ -62,8 +63,13 @@ export class FiltrePostComponent {
     if (element) {
     element.scrollIntoView({ behavior: 'smooth' });
       }*/
-     
     
+    this.isBadResult = this.publicationServie.getIsBadResult();
+    if(this.isBadResult){
+      setTimeout(() => {
+        this.isBadResult = false;
+      }, 2000);
+    }
   
 
   }
