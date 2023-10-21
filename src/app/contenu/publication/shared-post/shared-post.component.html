@@ -16,7 +16,9 @@
                         -->
                     </div>
                     <div class="ml-2">
-                        <div class="h5 m-0">@ {{sharedPost.createdBy}}</div>
+                        <div class="h5 m-0">@ {{sharedPost.identifiantAuteur}}
+                            <span class="h7 text-muted">({{sharedPost.nomAuteur + " " + sharedPost.prenomAuteur}})</span>
+                        </div>
                         <div class="h7 text-muted">{{sharedPost.date}}</div>
                     </div>
                 </div>
@@ -32,6 +34,13 @@
             <div class="mr-2">
                 <img class="img-fluid" src="{{sharedPost.images.url}}" alt="{{sharedPost.images.title}}">
             </div>
+            <div *ngIf="sharedPost.hashtags.length != 0">
+                <div class="d-flex">
+                  <div *ngFor="let h of sharedPost.hashtags">
+                    <span class="badge rounded-pill bg-info text-white mt-3 me-2" style="font-size: 1.1rem;">{{h}}</span>
+                  </div>
+                </div>
+              </div>
         </div>
 
        

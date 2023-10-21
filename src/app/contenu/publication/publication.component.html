@@ -36,6 +36,14 @@
             <div class="mr-2">
                 <img class="img-fluid" src="{{post.images.url}}" alt="{{post.images.title}}">
             </div>
+            <div *ngIf="post.hashtags.length != 0">
+              <div class="d-flex">
+                <div *ngFor="let h of post.hashtags">
+                  <span class="badge rounded-pill bg-info text-white mt-3 me-2" style="font-size: 1.1rem;">{{h}}</span>
+                </div>
+              </div>
+            </div>
+            
         </div>
         <div class="card-footer">
             <a class="card-link" (click)="likePost(post)" style="cursor: pointer;"><i class="fa fa-gittip"></i>J'aime</a>

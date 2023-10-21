@@ -210,13 +210,26 @@ export class PublicationComponent {
       const response = await firstValueFrom(this.publicationServie.getPublicationById(post.shared));
   
       console.log("récupération de la sharedPost");
-      console.log("response : " + JSON.stringify(response));
       
       if (response!.body) {
 
         this.sharedPost = new Publication(response!.body);
         console.log("is instance of Publication : " + (this.sharedPost instanceof Publication));
         console.log("body : " + this.sharedPost.body);
+        //recuperer les infos d utilisateurs
+        const user = this.listUsers?.find((user) => {
+          return user.id === this.sharedPost.createdBy;
+        });
+        if (user) {
+          console.log("user trouvé, maj des données de la publication");
+          this.sharedPost.identifiantAuteur = user.identifiant;
+          this.sharedPost.nomAuteur = user.nom;
+          this.sharedPost.prenomAuteur = user.prenom;
+          if(user.avatar)
+            this.sharedPost.avatarAuteur = user.avatar;
+          else
+            this.sharedPost.avatarAuteur = "https://static.vecteezy.com/system/resources/thumbnails/009/734/564/small/default-avatar-profile-icon-of-social-media-user-vector.jpg";
+        }
       }
       this.spinnerOnSharedPost[i as number] = false;
       this.modalRef = this.modalService.open(this.loginModal, { centered: true });
