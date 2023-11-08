@@ -28,6 +28,7 @@ export class AddPostComponent {
     if (this.hashtagQuery.length > 1 && !this.hashtagList.includes(this.hashtagQuery)) {
       this.hashtagList.push(this.hashtagQuery);
     }
+    console.log(this.hashtagList);
     this.hashtagQuery = '';
   }
   removeHashtag(hashtag: string) {
@@ -49,16 +50,15 @@ export class AddPostComponent {
 
 
   submitForm() {
-    
+    console.log("dans le submit");
+    console.log("les hashtags" + this.hashtagList);
       if(localStorage.getItem("objetUser")){
         this.spinnerOn = true;
       console.log('Formulaire ajout post soumis !');
-      console.log('Données du formulaire :', this.post);
-      
       this.publicationService.addPublication(
         this.post.body,
         this.post.images,
-        this.post.hashtags
+        this.hashtagList
       ).subscribe({
         next: () => {
           this.publicationService.setEtatAdd(true);
