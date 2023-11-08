@@ -1,6 +1,7 @@
 import { Component, ElementRef, Input } from '@angular/core';
 import { Publication } from '../../models/publication';
 import { PublicationService } from '../../services/publication.service';
+import { User } from 'src/app/auth/models/user';
 
 @Component({
   selector: 'app-commentaires',
@@ -10,12 +11,14 @@ import { PublicationService } from '../../services/publication.service';
 export class CommentairesComponent {
 
   @Input() post !: Publication;
+  @Input() users : User[] | null | undefined = [];
   newComment : string = "";
   date : string = "";
   hour : string = "";
   spinnerOn : boolean = false;
   constructor(private publicationService : PublicationService)
   {}
+
   addComment(post: Publication, newComment: string): void {
     if (newComment.trim() === "") {
       console.log("Le champ commentaire est vide. Soumission annulée.");
@@ -40,6 +43,7 @@ export class CommentairesComponent {
             console.log("is instance of Publication : " + (postTmp instanceof Publication));
             console.log("comments : " + postTmp.comments);
             this.spinnerOn = false;
+            this.updateComments(postTmp);
             post.comments = postTmp.comments;
           }
         },
@@ -58,5 +62,22 @@ export class CommentairesComponent {
    }
    this.publicationService.triggerCommentSubmit();
    this.newComment = "";
+  }
+  updateComments(post : Publication) : void{
+    post.comments.forEach((comment) => {
+      const user = this.users?.find((user) => {
+        return user.id === comment.commentedBy;
+      });
+      if (user) {
+        console.log("user trouvé, maj des données de la publication");
+        comment.identifiantAuteur = user.identifiant;
+        comment.nomAuteur = user.nom;
+        comment.prenomAuteur = user.prenom;
+        if(user.avatar)
+          comment.avatarAuteur = user.avatar;
+        else
+          comment.avatarAuteur = "https://static.vecteezy.com/system/resources/thumbnails/009/734/564/small/default-avatar-profile-icon-of-social-media-user-vector.jpg";
+      }
+    });
   }
 }
