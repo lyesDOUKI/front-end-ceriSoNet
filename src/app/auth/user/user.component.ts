@@ -3,6 +3,7 @@ import { User } from '../models/user';
 import { UserShareService } from '../services/user-share.service';
 import {LoginService} from '../services/login.service';
 import { Router } from '@angular/router';
+import { CommunService } from 'src/app/commun.service';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -16,7 +17,8 @@ export class UserComponent {
   lastLoginDateTime : string | undefined | null;
   constructor(private userShare: UserShareService,
     private loginService : LoginService,
-    private router : Router) {
+    private router : Router,
+    private commun : CommunService) {
       this.lastLoginDateTime = localStorage.getItem('lastLoginDateTime');
   }
 
@@ -58,5 +60,14 @@ export class UserComponent {
     const heureFormat = date.getHours() + ":" + date.getMinutes();
     const formattedDate = dateFormat + " " + heureFormat;
     return formattedDate;
+  }
+  voirMesPublication()
+  {
+    //recuperer les publications de l'utilisateur connecté avec son id
+    this.loginService.getPublicationByUser(this.realUser?.id!).subscribe(
+      (response) => {
+        this.commun.setSharedData(response.body);
+      }
+    );
   }
 }

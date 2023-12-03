@@ -8,8 +8,7 @@ import { AddPostComponent } from './add-post/add-post.component';
 import { FiltrePostComponent } from './filtre-post/filtre-post.component';
 import { CommentairesComponent } from './publication/commentaires/commentaires.component';
 import { SharedPostComponent } from './publication/shared-post/shared-post.component';
-
-
+import { CommunService } from '../commun.service';
 
 @NgModule({
   declarations: [
@@ -30,6 +29,9 @@ import { SharedPostComponent } from './publication/shared-post/shared-post.compo
     FiltrePostComponent,
     CommentairesComponent,
     SharedPostComponent
+  ],
+  providers: [
+    CommunService
   ]
 })
 export class ContenuModule { }

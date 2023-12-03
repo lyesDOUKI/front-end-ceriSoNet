@@ -11,6 +11,7 @@ export class FiltrePostComponent {
   hashtagQuery: string = '';
   suggestedHashtag: string = '';
   hashtagList: string[] = [];
+  usersFiltre : string[] = [];
   selected : string = "date";
   spinnerOn : boolean = false;
   constructor(private publicationServie : PublicationService,
@@ -31,6 +32,9 @@ export class FiltrePostComponent {
       this.hashtagList.push(this.hashtagQuery);
     }
     this.hashtagQuery = '';
+  }
+  addUser(){
+    this.usersFiltre.push(this.hashtagQuery);
   }
   removeHashtag(hashtag: string) {
     // Supprimer un hashtag de la liste
@@ -54,7 +58,8 @@ export class FiltrePostComponent {
         console.log("il y a des hashtag");
       await this.publicationServie.getPublicationByFiltreHashtag(this.selected, this.hashtagList);
       this.spinnerOn = this.publicationServie.getSpinnerOn();
-    }else{
+    }
+    else{
       console.log("non hashtag");
       await this.publicationServie.getPublicationByFiltre(this.selected);
       this.spinnerOn = this.publicationServie.getSpinnerOn();

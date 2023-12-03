@@ -5,6 +5,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { firstValueFrom } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { User } from 'src/app/auth/models/user';
+import { CommunService } from 'src/app/commun.service';
 @Component({
   selector: 'app-publication',
   templateUrl: './publication.component.html',
@@ -25,7 +26,8 @@ export class PublicationComponent {
   spinnerOnForShare : boolean = false;
   spinnerOnSharedPost : boolean[] = [];
   constructor(private publicationServie : PublicationService, private el : ElementRef,
-    private modalService : NgbModal) { }
+    private modalService : NgbModal,
+    private commun : CommunService) { }
   
   nextPage() {
     
@@ -64,6 +66,8 @@ export class PublicationComponent {
     return this.startIndex + this.pageSize < this.listPublications!.length;
   }
   ngOnInit(): void {
+
+    
     let usersLoaded = false;
     let publicationsLoaded = false;
   
@@ -121,6 +125,11 @@ export class PublicationComponent {
         }
       }
     );
+    this.commun.observeData().subscribe(
+      ()=>{
+        this.listPublications = this.commun.getSharedData();
+        this.handleDataLoaded();
+      });
   }
   // Cette méthode est appelée lorsque les données des utilisateurs et des publications sont chargées.
   private handleDataLoaded() {

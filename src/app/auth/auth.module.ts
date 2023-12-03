@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserComponent } from './user/user.component';
 import { BandeauComponent } from '../bandeau/bandeau.component';
 import { UsersOnlineComponent } from './users-online/users-online.component';
+import { CommunService } from '../commun.service';
 
 @NgModule({
   declarations: [
@@ -21,13 +22,16 @@ import { UsersOnlineComponent } from './users-online/users-online.component';
     FormsModule,
     HttpClientModule,
     ToastrModule.forRoot(),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
   ],
   exports : [
     LoginComponent,
     UserComponent,
     BandeauComponent,
     UsersOnlineComponent
+  ],
+  providers : [
+    CommunService
   ]
 })
 export class AuthModule { }

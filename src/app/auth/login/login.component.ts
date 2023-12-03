@@ -5,6 +5,7 @@ import { LoginService} from '../services/login.service';
 import { Router } from '@angular/router';
 import { User } from '../models/user';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { CommunService } from 'src/app/commun.service';
 
 @Component({
   selector: 'app-login',
@@ -38,7 +39,8 @@ export class LoginComponent {
   
   constructor(private loginService : LoginService,
      private userShare : UserShareService,
-     private router : Router )
+     private router : Router,
+     private commun : CommunService)
       {}
 
   onSubmit() {

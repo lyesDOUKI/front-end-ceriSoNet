@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import {User } from '../models/user';
 import {environment} from '../../../environments/environment.development';
+import { Publication } from 'src/app/contenu/models/publication';
 @Injectable({
   providedIn: 'root'
 })
@@ -46,4 +47,15 @@ export class LoginService {
     return this.http.get<string []>(this.URI_NODE_API + '/usersOn', options);
   }
   
+  getPublicationByUser(id : number)
+  {
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      observe : 'response' as 'response',
+      withCredentials: true
+    };
+    return this.http.get<Publication []>(this.URI_NODE_API + '/userPosts/' + id, options);
+  }
 }
