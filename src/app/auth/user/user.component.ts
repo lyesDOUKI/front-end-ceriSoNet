@@ -62,14 +62,15 @@ export class UserComponent {
     const formattedDate = dateFormat + " " + heureFormat;
     return formattedDate;
   }
+  spinnerOn2 : boolean = false;
   voirMesPublication()
   {
-    this.spinnerOn = true;
+    this.spinnerOn2 = true;
     //recuperer les publications de l'utilisateur connecté avec son id
     this.loginService.getPublicationByUser(this.realUser?.id!).subscribe(
       (response) => {
 
-        this.spinnerOn = false;
+        this.spinnerOn2 = false;
         if(response.body?.length === 0)
         {
           this.isBadResult = true;
