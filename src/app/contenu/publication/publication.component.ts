@@ -77,6 +77,7 @@ export class PublicationComponent {
           
           if (response && response.length > 0) {
             this.listUsers = response;
+            this.publicationServie.setListUsers(this.listUsers);
             usersLoaded = true;
   
             if (publicationsLoaded) {

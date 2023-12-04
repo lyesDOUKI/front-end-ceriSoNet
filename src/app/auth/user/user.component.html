@@ -17,5 +17,11 @@
       </div>
     </button>
     <button class="btn btn-info btn-lg rounded-pill shadow mt-3" [disabled]="spinnerOn"
-    (click)="voirMesPublication()"> voir mes publications</button>
+    (click)="voirMesPublication()"> <ng-container *ngIf="!spinnerOn">Voir mes publications  </ng-container>
+    <div class="d-flex justify-content-center" *ngIf="spinnerOn">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div></button>
+    <div class="mt-2 container" *ngIf="isBadResult">aucun résultat pour cette recherche</div>
 </div>

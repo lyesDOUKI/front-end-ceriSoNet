@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { PublicationService } from '../services/publication.service';
 import { NgForm } from '@angular/forms';
+import { CommunService } from 'src/app/commun.service';
 
 @Component({
   selector: 'app-filtre-post',
@@ -8,6 +9,7 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./filtre-post.component.css']
 })
 export class FiltrePostComponent {
+  identifiantToSearch: string = '';
   hashtagQuery: string = '';
   suggestedHashtag: string = '';
   hashtagList: string[] = [];
@@ -15,6 +17,7 @@ export class FiltrePostComponent {
   selected : string = "date";
   spinnerOn : boolean = false;
   constructor(private publicationServie : PublicationService,
+    private communService : CommunService
     ) { }
 
   suggestHashtag(event: any) {
@@ -79,5 +82,32 @@ export class FiltrePostComponent {
   
 
   }
+}
+search()
+{
+  this.spinnerOn = true;
+  const user = 
+    this.publicationServie.getListUsers()?.filter((user) => user.identifiant === this.identifiantToSearch);
+
+    const id = user?.at(0)?.id;
+    this.publicationServie.getPublicationByUser(id!).subscribe(
+      (res)=>{
+        this.spinnerOn = false;
+        if(res.body?.length === 0)
+        {
+          this.isBadResult = true;
+          if(this.isBadResult){
+            setTimeout(() => {
+              this.isBadResult = false;
+              this.publicationServie.setIsBadResult(false);
+            }, 2000);
+          }
+        }else
+        {
+          this.communService.setSharedData(res.body);
+        }
+      }
+    );
+    this.identifiantToSearch = '';
 }
 }

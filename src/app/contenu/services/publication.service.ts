@@ -258,4 +258,24 @@ export class PublicationService {
   {
     this.isBadResult = etat;
   }
+  listUsers: User[] | null | undefined = [];
+  getListUsers()
+  {
+    return this.listUsers;
+  }
+  setListUsers(users : User[])
+  {
+    this.listUsers = users;
+  }
+  getPublicationByUser(id : number)
+  {
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      observe : 'response' as 'response',
+      withCredentials: true
+    };
+    return this.http.get<Publication []>(this.URI_NODE_API + '/userPosts/' + id, options);
+  }
 }

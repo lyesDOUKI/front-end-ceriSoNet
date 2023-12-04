@@ -11,6 +11,7 @@ import { CommunService } from 'src/app/commun.service';
 })
 export class UserComponent {
 
+  isBadResult : boolean = false;
   spinnerOn : boolean = false;
   realUser ?: User;
   userSotre : String | null = null;
@@ -63,10 +64,24 @@ export class UserComponent {
   }
   voirMesPublication()
   {
+    this.spinnerOn = true;
     //recuperer les publications de l'utilisateur connecté avec son id
     this.loginService.getPublicationByUser(this.realUser?.id!).subscribe(
       (response) => {
-        this.commun.setSharedData(response.body);
+
+        this.spinnerOn = false;
+        if(response.body?.length === 0)
+        {
+          this.isBadResult = true;
+          if(this.isBadResult){
+            setTimeout(() => {
+              this.isBadResult = false;
+            }, 2000);
+          }
+        }else
+        {
+          this.commun.setSharedData(response.body);
+        }
       }
     );
   }
