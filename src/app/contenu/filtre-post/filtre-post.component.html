@@ -13,7 +13,7 @@
           class="form-control"
         />
         <button (click)="search()" class="ms-2 btn btn-info btn-lg rounded-pill shadow"
-        [disabled]="spinnerOn2"> <ng-container *ngIf="!spinnerOn2">Chercher</ng-container>
+        [disabled]="spinnerOn2 || identifiantToSearch ===''"> <ng-container *ngIf="!spinnerOn2">Chercher</ng-container>
         <div class="d-flex justify-content-center" *ngIf="spinnerOn2">
             <div class="spinner-border" role="status">
               <span class="visually-hidden">Loading...</span>
