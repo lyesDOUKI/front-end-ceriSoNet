@@ -21,15 +21,15 @@ export class CommentairesComponent {
 
   addComment(post: Publication, newComment: string): void {
     if (newComment.trim() === "") {
-      console.log("Le champ commentaire est vide. Soumission annulée.");
+      
       return; 
     } 
-   console.log("new comment : " + newComment);
+   
    if(localStorage.getItem("objetUser"))
    {
     this.spinnerOn = true;
     this.publicationService.setEtatComment(true);
-    console.log("tu peux soumettre ce commentaire");
+    
     const currentDate = new Date();
     this.date = currentDate.getDate() + "-" + (currentDate.getMonth() + 1) + "-" + currentDate.getFullYear();
     this.hour = currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds();
@@ -38,17 +38,17 @@ export class CommentairesComponent {
         next : (response) => {
           if(response.body)
           {
-            console.log("response : " + response.body);
+            
             var postTmp = new Publication(response.body);
-            console.log("is instance of Publication : " + (postTmp instanceof Publication));
-            console.log("comments : " + postTmp.comments);
+            
+            
             this.spinnerOn = false;
             this.updateComments(postTmp);
             post.comments = postTmp.comments;
           }
         },
         error : (err) => {
-          console.log("erreur : " + err);
+          
           this.spinnerOn = false;
         }
       }
@@ -57,7 +57,7 @@ export class CommentairesComponent {
    }else
    {
     this.publicationService.setEtatComment(false);
-    console.log("tu ne peux pas soumettre ce commentaire");
+    
 
    }
    this.publicationService.triggerCommentSubmit();
@@ -69,7 +69,7 @@ export class CommentairesComponent {
         return user.id === comment.commentedBy;
       });
       if (user) {
-        console.log("user trouvé, maj des données de la publication");
+        
         comment.identifiantAuteur = user.identifiant;
         comment.nomAuteur = user.nom;
         comment.prenomAuteur = user.prenom;

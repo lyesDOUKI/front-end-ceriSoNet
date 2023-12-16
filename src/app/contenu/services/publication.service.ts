@@ -9,8 +9,15 @@ import { User } from 'src/app/auth/models/user';
   providedIn: 'root'
 })
 export class PublicationService {
-  private URI_NODE_API = environment.URI_NODE_API;
 
+  /*
+  Ce service contients les méthodes qui appellent les routes du serveur NodeJS
+  pour les traitements liés aux publications
+  il contient aussi les observables qui permettent de notifier le composant Bandeau
+  */
+  private URI_NODE_API = environment.URI_NODE_API;
+  private LOGIN = '/login';
+  private PUBLICATION = '/publication';
   private publicationsSubject: BehaviorSubject<Publication[] | null> = new BehaviorSubject<Publication[] | null>([]);
   public publications$: Observable<Publication[] | null> = this.publicationsSubject.asObservable();
 
@@ -101,7 +108,7 @@ export class PublicationService {
       withCredentials: true
     };
 
-    this.http.get<Publication[]>(this.URI_NODE_API + '/publication', options).subscribe(
+    this.http.get<Publication[]>(this.URI_NODE_API + this.PUBLICATION, options).subscribe(
       (data) => {
         this.publicationsSubject.next(data.body);
       }
@@ -117,7 +124,7 @@ export class PublicationService {
       withCredentials: true
     };
 
-    this.http.get<User[]>(this.URI_NODE_API + '/getAllUsers', options).subscribe(
+    this.http.get<User[]>(this.URI_NODE_API + this.LOGIN + '/getAllUsers', options).subscribe(
       (data) => {
         this.usersSubject.next(data.body);
       }
@@ -140,16 +147,16 @@ export class PublicationService {
 
     try {
       const response = await firstValueFrom(this.http.
-      get<Publication[]>(this.URI_NODE_API + '/publication/' + trie + '/' + filtre.join(','), options));
-      console.log("dans le next data");
+      get<Publication[]>(this.URI_NODE_API + this.PUBLICATION + '/' + trie + '/' + filtre.join(','), options));
+      
       if(response!.body?.length === 0)
       {
-        console.log("dans la condition et length = " + response!.body?.length);
+        
         this.isBadResult = true;
       }
       this.publicationsSubject.next(response!.body);
       this.spinnerOn = false;
-      console.log("spinner dans service : " + this.spinnerOn);
+      
     } catch (error) {
       this.spinnerOn = false;
       console.error("Une erreur s'est produite lors de la récupération des publications : " + error);
@@ -167,11 +174,11 @@ export class PublicationService {
   
     try {
       const response = await firstValueFrom(this.http.
-      get<Publication[]>(this.URI_NODE_API + '/publication/' + trie, options));
-      console.log("dans le next data");
+      get<Publication[]>(this.URI_NODE_API + this.PUBLICATION + "/" + trie, options));
+      
       this.publicationsSubject.next(response!.body);
       this.spinnerOn = false;
-      console.log("spinner dans service : " + this.spinnerOn);
+      
     } catch (error) {
       this.spinnerOn = false;
       console.error("Une erreur s'est produite lors de la récupération des publications : " + error);
@@ -188,7 +195,7 @@ export class PublicationService {
       withCredentials: true
     };
 
-    return this.http.post<HttpResponse<Publication>>(this.URI_NODE_API + '/likes', dataToSend, options);
+    return this.http.post<HttpResponse<Publication>>(this.URI_NODE_API + this.PUBLICATION + '/likes', dataToSend, options);
   }
   commentPublication(_id : number, text: string, date : string, hour : string) {
     const dataToSend = {_id : _id, text : text, date : date, hour : hour};
@@ -200,7 +207,7 @@ export class PublicationService {
       withCredentials: true
     };
 
-    return this.http.post<HttpResponse<Publication>>(this.URI_NODE_API + '/comments', dataToSend, options);
+    return this.http.post<HttpResponse<Publication>>(this.URI_NODE_API + this.PUBLICATION + '/comments', dataToSend, options);
   }
   //ajout post
   addPublication(body: string, images: string, hashtags: string[]) {
@@ -213,7 +220,7 @@ export class PublicationService {
       withCredentials: true
     };
 
-    return this.http.post<HttpResponse<any>>(this.URI_NODE_API + '/addpost', dataToSend, options);
+    return this.http.post<HttpResponse<any>>(this.URI_NODE_API + this.PUBLICATION + '/addpost', dataToSend, options);
   }
   sharePublication(post : Publication, shareText : string, imageURL : string) {
     const dataToSend = {postid: post._id, body : post.body, imageURL : imageURL, hashtags : post.hashtags,
@@ -225,8 +232,8 @@ export class PublicationService {
       observe: 'response' as 'response',
       withCredentials: true
     };
-    console.log("partager le post id : " + post._id)
-    return this.http.post<HttpResponse<any>>(this.URI_NODE_API + '/sharepost', dataToSend, options);
+    
+    return this.http.post<HttpResponse<any>>(this.URI_NODE_API + this.PUBLICATION + '/sharepost', dataToSend, options);
   }
   //get post by id
   getPublicationById(id: number) {
@@ -237,7 +244,7 @@ export class PublicationService {
       observe: 'response' as 'response',
       withCredentials: true
     };
-    return this.http.get<HttpResponse<Publication>>(this.URI_NODE_API + '/post/' + id, options);
+    return this.http.get<HttpResponse<Publication>>(this.URI_NODE_API + this.PUBLICATION + '/post/' + id, options);
   }
 
   spinnerOn : boolean = false;
@@ -276,6 +283,6 @@ export class PublicationService {
       observe : 'response' as 'response',
       withCredentials: true
     };
-    return this.http.get<Publication []>(this.URI_NODE_API + '/userPosts/' + id, options);
+    return this.http.get<Publication []>(this.URI_NODE_API + this.PUBLICATION + '/userPosts/' + id, options);
   }
 }

@@ -3,7 +3,7 @@ import { CanActivateFn, Router } from '@angular/router';
 
 
 export const authGuard: CanActivateFn = (route, state) => {
-  console.log('dans le guard');
+  
   const router = inject(Router);
   const user = localStorage.getItem('objetUser');
   if(user){
@@ -15,7 +15,7 @@ export const authGuard: CanActivateFn = (route, state) => {
 };
 
 export const authGuardLogin: CanActivateFn = (route, state) => {
-  console.log('dans le guard');
+  
   const router = inject(Router);
   const user = localStorage.getItem('objetUser');
   if(user){

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserShareService } from '../services/user-share.service';
+import { ProfiLShareDataService } from '../services/profil-share-data.service';
 import { LoginService } from '../services/login.service';
 
 @Component({
@@ -14,7 +14,7 @@ export class UsersOnlineComponent implements OnInit{
   isConnected : boolean = false;
   identifiant : string = "";
   //remplir la liste des users
-  constructor(private share : UserShareService,
+  constructor(private share : ProfiLShareDataService,
     private loginService : LoginService) { }
   ngOnInit(): void {
     if(localStorage.getItem("objetUser"))
@@ -24,17 +24,20 @@ export class UsersOnlineComponent implements OnInit{
       this.getUsers();
       this.observeNewUser();
     }
-    console.log("je suis dans le on init de users online");
-    this.share.getUser().subscribe((user) => {
-      if(user)
-      {
-        this.identifiant = user.identifiant;
-        this.isConnected = true;
-        this.getUsers();
-        this.observeNewUser();
-      }
-    });
-   
+    else
+    {
+      this.share.getUser().subscribe((user) => {
+        if(user)
+        {
+          this.identifiant = user.identifiant;
+          this.isConnected = true;
+          this.getUsers();
+          this.observeNewUser();
+        }
+      });
+     
+    }
+    
       
       
     }

@@ -1,5 +1,5 @@
 <div *ngIf="!isLoggedIn">
-<form #login="ngForm" (ngSubmit)="onSubmit()">
+<form #loginForm="ngForm" (ngSubmit)="onSubmit()">
     <div class="mb-3">
         <label for="username" class="form-label">Nom d'utilisateur</label>
         <input type="text" id="username" name ="username" [(ngModel)]="info.username" class="form-control" placeholder="Entrez votre nom d'utilisateur" required>
@@ -9,7 +9,7 @@
         <input type="password" id="password" name="password" [(ngModel)]="info.password" class="form-control" placeholder="Entrez votre mot de passe" required>
     </div>
     <div class="text-center">
-        <button class="btn btn-info btn-lg rounded-pill shadow" [disabled]="spinnerOn">
+        <button class="btn btn-info btn-lg rounded-pill shadow" [disabled]="spinnerOn || !loginForm.valid">
             <i class="bi bi-person" *ngIf="!spinnerOn"></i>
             <ng-container *ngIf="!spinnerOn">Se connecter</ng-container>
             <div class="d-flex justify-content-center" *ngIf="spinnerOn">

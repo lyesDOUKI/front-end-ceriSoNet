@@ -1,22 +1,22 @@
 import { Component, ViewChild } from '@angular/core';
 import { User } from '../models/user';
-import { UserShareService } from '../services/user-share.service';
+import { ProfiLShareDataService } from '../services/profil-share-data.service';
 import {LoginService} from '../services/login.service';
 import { Router } from '@angular/router';
 import { CommunService } from 'src/app/commun.service';
 @Component({
-  selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css']
+  selector: 'app-profil',
+  templateUrl: './profil.component.html',
+  styleUrls: ['./profil.component.css']
 })
-export class UserComponent {
+export class ProfilComponent {
 
   isBadResult : boolean = false;
   spinnerOn : boolean = false;
-  realUser ?: User;
+  profil ?: User;
   userSotre : String | null = null;
   lastLoginDateTime : string | undefined | null;
-  constructor(private userShare: UserShareService,
+  constructor(private profilShareData: ProfiLShareDataService,
     private loginService : LoginService,
     private router : Router,
     private commun : CommunService) {
@@ -29,9 +29,9 @@ export class UserComponent {
     this.spinnerOn = true;
     this.loginService.logout().subscribe(
       () => {
-        console.log("logout");
-        this.userShare.setUser(undefined);
-        this.realUser = undefined;
+        
+        this.profilShareData.setUser(undefined);
+        this.profil = undefined;
         localStorage.clear();
         this.spinnerOn = false;
         this.router.navigate(['/login']);
@@ -44,14 +44,14 @@ export class UserComponent {
     
     if(localStorage.getItem("objetUser") != null)
     {
-     console.log("objet user : " + localStorage.getItem("objetUser"));
-      this.realUser = new User(JSON.parse(localStorage.getItem("objetUser")!));
-      console.log("real user : " + this.realUser.identifiant);
+     
+      this.profil = new User(JSON.parse(localStorage.getItem("objetUser")!));
+      
     }else
     {
-      this.userShare.getUser().subscribe((user) => {
-      this.realUser = user;
-      this.lastLoginDateTime = this.realUser?.date_co;
+      this.profilShareData.getUser().subscribe((user) => {
+      this.profil = user;
+      this.lastLoginDateTime = this.profil?.date_co;
     });
     }
   }
@@ -67,7 +67,7 @@ export class UserComponent {
   {
     this.spinnerOn2 = true;
     //recuperer les publications de l'utilisateur connecté avec son id
-    this.loginService.getPublicationByUser(this.realUser?.id!).subscribe(
+    this.loginService.getPublicationByUser(this.profil?.id!).subscribe(
       (response) => {
 
         this.spinnerOn2 = false;
@@ -81,7 +81,7 @@ export class UserComponent {
           }
         }else
         {
-          this.commun.setSharedData(response.body);
+          this.commun.setlistesDesPublications(response.body);
         }
       }
     );

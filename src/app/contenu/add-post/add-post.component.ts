@@ -11,7 +11,7 @@ export class AddPostComponent {
 
   spinnerOn : boolean = false;
   constructor(private publicationService : PublicationService) { }
-  hashtagQuery: string = '';
+  hashtagInput: string = '';
   suggestedHashtag: string = '';
   hashtagList: string[] = [];
   suggestHashtag(event: any) {
@@ -25,19 +25,19 @@ export class AddPostComponent {
 
   addHashtag() {
 
-    if (this.hashtagQuery.length > 1 && !this.hashtagList.includes(this.hashtagQuery)) {
-      this.hashtagList.push(this.hashtagQuery);
+    if (this.hashtagInput.length > 1 && !this.hashtagList.includes(this.hashtagInput)) {
+      this.hashtagList.push(this.hashtagInput);
     }
-    console.log(this.hashtagList);
-    this.hashtagQuery = '';
+    
+    this.hashtagInput = '';
   }
   removeHashtag(hashtag: string) {
     // Supprimer un hashtag de la liste
-    console.log(this.hashtagList);
+    
     const index = this.hashtagList.indexOf(hashtag);
-    console.log("dans le supprime");
-    console.log("le hashtag : " + hashtag);
-    console.log("l'index : " + index);
+    
+    
+    
     if (index !== -1) {
       this.hashtagList.splice(index, 1);
     }
@@ -50,11 +50,11 @@ export class AddPostComponent {
 
 
   submitForm() {
-    console.log("dans le submit");
-    console.log("les hashtags" + this.hashtagList);
+    
+    
       if(localStorage.getItem("objetUser")){
         this.spinnerOn = true;
-      console.log('Formulaire ajout post soumis !');
+      
       this.publicationService.addPublication(
         this.post.body,
         this.post.images,
@@ -62,28 +62,28 @@ export class AddPostComponent {
       ).subscribe({
         next: () => {
           this.publicationService.setEtatAdd(true);
-          console.log('Publication ajoutée !');
+          
           this.spinnerOn = false;
           this.publicationService.triggerAddSubmit();
         },
         error: (err) => {
-          console.log('Erreur lors de l\'ajout de la publication :', err);
+          
           this.spinnerOn = false;
           this.publicationService.setEtatAdd(false);
         }
       });
     }else{
-      console.log("vous n'etes pas connecté");
+      
       this.publicationService.setEtatAdd(false);
       this.publicationService.triggerAddSubmit();
     }
     
-      // Réinitialisez les valeurs du formulaire si nécessaire.
+      // Réinitialisez les valeurs du formulaire
       this.post = {
         body: '',
         images: '',
         hashtags: []
       };
-      this.hashtagQuery = '';
+      this.hashtagInput = '';
   }
 }

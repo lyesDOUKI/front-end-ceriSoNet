@@ -33,27 +33,32 @@
   </div>
   <div class="alert alert-info sticky-notification" *ngIf="isUserLogin">
     <div class="container">
-        <b>Info :</b> Un nouvel utilisateur viens de nous rejoindre !
+        <b>Info :</b> {{messageInfo}} vient de nous rejoindre !
     </div>
   </div>
   <div class="alert alert-info sticky-notification" *ngIf="isPostLike">
     <div class="container">
-        <b>Info :</b> Une publication viens d'être liké  !
+        <b>Info :</b> Une publication vient d'être likée par {{messageInfo}}!
     </div>
   </div>
   <div class="alert alert-info sticky-notification" *ngIf="isCommentPost">
     <div class="container">
-        <b>Info :</b> Une publication viens d'être commentée !
+        <b>Info :</b> Une publication vient d'être commentée par {{messageInfo}} !
     </div>
   </div>
   <div class="alert alert-info sticky-notification" *ngIf="notifyNewPost">
     <div class="container">
-        <b>Info :</b> Une post viens d'être publier !
+        <b>Info :</b> Un post vient d'être publié par {{messageInfo}} !
+    </div>
+  </div>
+  <div class="alert alert-info sticky-notification" *ngIf="notifyPostWasShared">
+    <div class="container">
+        <b>Info :</b> Un post vient d'être partagé par {{messageInfo}} !
     </div>
   </div>
   <div class="alert alert-info sticky-notification" *ngIf="isLogout">
     <div class="container">
-        <b>Info :</b> Un utilisateur c'est déconnecté !
+        <b>Info :</b> {{messageInfo}} s'est déconnecté !
     </div>
   </div>
   <div class="alert alert-success sticky-notification" *ngIf="isSuccess">
@@ -63,12 +68,12 @@
   </div>
   <div class="alert alert-success sticky-notification" *ngIf="isPostOk">
     <div class="container">
-        <b>Post ajouter:</b> Yuhuuu! votre publication a bien été enregister !
+        <b>Post ajouter:</b> Yuhuuu! votre publication a bien été enregistée !
     </div>
   </div>
   <div class="alert alert-success sticky-notification" *ngIf="isShareOk">
     <div class="container">
-        <b>Post partager:</b> Yuhuuu! la publication a bien été partager !
+        <b>Post partager:</b> Yuhuuu! la publication a bien été partagée !
     </div>
   </div>
   <div class="alert alert-danger sticky-notification" *ngIf="isFailedConnect">

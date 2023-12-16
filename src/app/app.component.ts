@@ -11,10 +11,10 @@ export class AppComponent implements OnInit{
   title = 'ceri-so-net';
   ngOnInit(): void {
     const socket = io(environment.URI_NODE_API);
-    console.log("Hello World!");
-    console.log("le serveur est sur le port : ", window.location.port);
+    
+    
     socket.on('firstConnect', (message) => {
-      console.log(message);
+      
     });
   }
 }

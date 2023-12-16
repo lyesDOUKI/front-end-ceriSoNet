@@ -88,8 +88,8 @@
                     Partagé à partir
                 </button>-->
                 <button class="mb-3 btn btn-md btn-info rounded-pill shadow" 
-                *ngIf="post.shared"
-                (click)="openLoginModal(post, i)"
+                *ngIf="isValidShared(post)"
+                (click)="openSharedPostModal(post, i)"
                 [disabled]="spinnerOnSharedPost[i]">
                   <ng-container *ngIf="!spinnerOnSharedPost[i]">Partagé à partir</ng-container>
                   <div class="d-flex justify-content-center" *ngIf="spinnerOnSharedPost[i]">
@@ -104,7 +104,8 @@
         </div>
         <app-commentaires [post]="post" [users]="listUsers"></app-commentaires>
     </div>
-    <ng-template #loginModal let-modal>
+      
+    <ng-template #sharedPostModal let-modal>
         <app-shared-post [sharedPost]="sharedPost"></app-shared-post>
     </ng-template>
 </div>

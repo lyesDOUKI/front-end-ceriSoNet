@@ -9,7 +9,8 @@ import { Publication } from 'src/app/contenu/models/publication';
 export class LoginService {
 
   private URI_NODE_API = environment.URI_NODE_API;
-
+  private LOGIN = '/login';
+  private PUBLICATION = '/publication';
   constructor(private http : HttpClient) { }
 
   login(username : string, password : string) {
@@ -21,7 +22,7 @@ export class LoginService {
       observe : 'response' as 'response',
       withCredentials: true
     };
-    return this.http.post<HttpResponse<User>>(this.URI_NODE_API + '/login', dataToSend, options);
+    return this.http.post<HttpResponse<User>>(this.URI_NODE_API + this.LOGIN, dataToSend, options);
   }
   logout()
   {
@@ -32,7 +33,7 @@ export class LoginService {
       observe : 'response' as 'response',
       withCredentials: true
     };
-    return this.http.post(this.URI_NODE_API + '/logout',{}, options);
+    return this.http.post(this.URI_NODE_API + this.LOGIN + '/logout',{}, options);
   }
   //subject of string 
   usersOn()
@@ -44,7 +45,7 @@ export class LoginService {
       observe : 'response' as 'response',
       withCredentials: true
     };
-    return this.http.get<string []>(this.URI_NODE_API + '/usersOn', options);
+    return this.http.get<string []>(this.URI_NODE_API + this.LOGIN + '/usersOn', options);
   }
   
   getPublicationByUser(id : number)
@@ -56,6 +57,6 @@ export class LoginService {
       observe : 'response' as 'response',
       withCredentials: true
     };
-    return this.http.get<Publication []>(this.URI_NODE_API + '/userPosts/' + id, options);
+    return this.http.get<Publication []>(this.URI_NODE_API + this.PUBLICATION + '/userPosts/' + id, options);
   }
 }

@@ -8,18 +8,18 @@ import { Publication } from './contenu/models/publication';
 export class CommunService {
 
   constructor() { }
-  sharedData: Publication[] | null | undefined = [];
-  private sharedDataSubject =  new Subject<any>();
-  setSharedData(data: any) {
-    this.sharedData = data;
-    this.sharedDataSubject.next(data);
+  listesDesPublications: Publication[] | null | undefined = [];
+  private listesDesPublicationsSubject =  new Subject<any>();
+  setlistesDesPublications(data: any) {
+    this.listesDesPublications = data;
+    this.listesDesPublicationsSubject.next(data);
   }
 
-  getSharedData() {
-    return this.sharedData;
+  getlistesDesPublications() {
+    return this.listesDesPublications;
   }
   observeData()
   {
-    return this.sharedDataSubject.asObservable();
+    return this.listesDesPublicationsSubject.asObservable();
   }
 }

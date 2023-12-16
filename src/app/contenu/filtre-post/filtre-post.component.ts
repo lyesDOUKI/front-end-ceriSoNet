@@ -10,13 +10,14 @@ import { CommunService } from 'src/app/commun.service';
 })
 export class FiltrePostComponent {
   identifiantToSearch: string = '';
-  hashtagQuery: string = '';
+  hashtagInput: string = '';
   suggestedHashtag: string = '';
   hashtagList: string[] = [];
   usersFiltre : string[] = [];
   selected : string = "date";
-  spinnerOn : boolean = false;
-  constructor(private publicationServie : PublicationService,
+  spinnerOn1 : boolean = false;
+  spinnerOn2 : boolean = false;
+  constructor(private publicationService : PublicationService,
     private communService : CommunService
     ) { }
 
@@ -31,13 +32,13 @@ export class FiltrePostComponent {
 
   addHashtag() {
 
-    if (this.hashtagQuery.length > 1 && !this.hashtagList.includes(this.hashtagQuery)) {
-      this.hashtagList.push(this.hashtagQuery);
+    if (this.hashtagInput.length > 1 && !this.hashtagList.includes(this.hashtagInput)) {
+      this.hashtagList.push(this.hashtagInput);
     }
-    this.hashtagQuery = '';
+    this.hashtagInput = '';
   }
   addUser(){
-    this.usersFiltre.push(this.hashtagQuery);
+    this.usersFiltre.push(this.hashtagInput);
   }
   removeHashtag(hashtag: string) {
     // Supprimer un hashtag de la liste
@@ -50,33 +51,33 @@ export class FiltrePostComponent {
   selectFiltre(event : any){
     this.selected = event.target.value;
   }
-  @ViewChild('login') login!: NgForm;
+  @ViewChild('loginForm') loginForm!: NgForm;
   isBadResult : boolean = false;
   async onSubmit(){
     
-    console.log("choix : " + this.selected);
-    if(this.login.valid){
-      this.spinnerOn = true;
+    
+    if(this.loginForm.valid){
+      this.spinnerOn1 = true;
       if(this.hashtagList.length > 0){
-        console.log("il y a des hashtag");
-      await this.publicationServie.getPublicationByFiltreHashtag(this.selected, this.hashtagList);
-      this.spinnerOn = this.publicationServie.getSpinnerOn();
+        
+      await this.publicationService.getPublicationByFiltreHashtag(this.selected, this.hashtagList);
+      this.spinnerOn1 = this.publicationService.getSpinnerOn();
     }
     else{
-      console.log("non hashtag");
-      await this.publicationServie.getPublicationByFiltre(this.selected);
-      this.spinnerOn = this.publicationServie.getSpinnerOn();
+      
+      await this.publicationService.getPublicationByFiltre(this.selected);
+      this.spinnerOn1 = this.publicationService.getSpinnerOn();
     }
    /* const element = document.querySelector('#lespostes'); 
     if (element) {
     element.scrollIntoView({ behavior: 'smooth' });
       }*/
     
-    this.isBadResult = this.publicationServie.getIsBadResult();
+    this.isBadResult = this.publicationService.getIsBadResult();
     if(this.isBadResult){
       setTimeout(() => {
         this.isBadResult = false;
-        this.publicationServie.setIsBadResult(false);
+        this.publicationService.setIsBadResult(false);
       }, 2000);
     }
   
@@ -85,26 +86,26 @@ export class FiltrePostComponent {
 }
 search()
 {
-  this.spinnerOn = true;
+  this.spinnerOn2 = true;
   const user = 
-    this.publicationServie.getListUsers()?.filter((user) => user.identifiant === this.identifiantToSearch);
+    this.publicationService.getListUsers()?.filter((user) => user.identifiant === this.identifiantToSearch);
 
     const id = user?.at(0)?.id;
-    this.publicationServie.getPublicationByUser(id!).subscribe(
+    this.publicationService.getPublicationByUser(id!).subscribe(
       (res)=>{
-        this.spinnerOn = false;
+        this.spinnerOn2 = false;
         if(res.body?.length === 0)
         {
           this.isBadResult = true;
           if(this.isBadResult){
             setTimeout(() => {
               this.isBadResult = false;
-              this.publicationServie.setIsBadResult(false);
+              this.publicationService.setIsBadResult(false);
             }, 2000);
           }
         }else
         {
-          this.communService.setSharedData(res.body);
+          this.communService.setlistesDesPublications(res.body);
         }
       }
     );

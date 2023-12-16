@@ -1,5 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { UserShareService } from '../auth/services/user-share.service';
+import { ProfiLShareDataService } from '../auth/services/profil-share-data.service';
 import { User } from '../auth/models/user';
 import { environment } from 'src/environments/environment.development';
 import { io } from 'socket.io-client';
@@ -23,17 +23,32 @@ export class BandeauComponent implements OnInit {
   isPostOk : boolean = false;
   isShareOk : boolean = false;
   notifyNewPost : boolean = false;
+  notifyPostWasShared : boolean = false;
   isNotificationActive: boolean = false;
   isWarningShare : boolean = false;
+  messageInfo : string = "";
   user : User | undefined | null = null ;
-  constructor(private service: UserShareService, private router : Router,
+  constructor(private service: ProfiLShareDataService, private router : Router,
     private publicationService : PublicationService) {}
 
+
+    /*
+    l'appel service.setIdentifiant()
+    ==> utilisé pour exploiter l'envoi des websockets
+    ==> un observeur est mis en place, il est déclenché à chaque fois que l'identifiant est modifié
+    ==> ça nous permet de mettre à jour la liste des utilisateurs connectés en temps réel
+    */
  
+    /*
+    Le mécanisme repose sur la gestion d'événements déclenchés par le serveur de sockets
+     on met à jour l'état du composant pour afficher des notifications visuelles
+     des observables sont mis en place pour écouter les événements
+     une fois déclenchés, on met à jour l'état du composant pour afficher des notifications
+    */
   ngOnInit() {
     this.publicationService.shareSubmit.subscribe(() => {
-      console.log("share submit");
-      console.log("etat : " + this.publicationService.getEtatShare());
+      
+      
         if(!this.publicationService.getEtatShare())
         {
           this.isNotificationActive = true;
@@ -57,8 +72,8 @@ export class BandeauComponent implements OnInit {
         }
     });
     this.publicationService.addSubmit.subscribe(() => {
-      console.log("add submit");
-      console.log("etat : " + this.publicationService.getEtatAdd());
+      
+      
         if(!this.publicationService.getEtatAdd())
         {
           this.isNotificationActive = true;
@@ -83,8 +98,8 @@ export class BandeauComponent implements OnInit {
     });
 
     this.publicationService.commentSubmit.subscribe(() => {
-      console.log("comment submit");
-      console.log("etat : " + this.publicationService.getEtatComment());
+      
+      
         if(!this.publicationService.getEtatComment())
         {
           this.isNotificationActive = true;
@@ -98,8 +113,8 @@ export class BandeauComponent implements OnInit {
         }
     });
     this.publicationService.likeSubmit.subscribe(() => {
-      console.log("like submit");
-      console.log("etat : " + this.publicationService.getEtatLike());
+      
+      
         if(!this.publicationService.getEtatLike())
         {
           this.isNotificationActive = true;
@@ -113,7 +128,7 @@ export class BandeauComponent implements OnInit {
         }
     });
     this.service.formSubmit.subscribe(() => {
-      console.log("formulaire soumis");
+      
       this.user = this.service.getUserObject();
       if(this.user != null){
         this.isNotificationActive = true;
@@ -141,12 +156,10 @@ export class BandeauComponent implements OnInit {
     socket.on('notify', (message) => {
       this.loadUser();
       this.service.setIdentifiant(message);
-      console.log("message : "+ message);
-      console.log("this user : " + this.user);
-      console.log("identifiant : " + this.user?.identifiant);
+      
       if(this.user != undefined && message !== this.user.identifiant){
+        this.messageInfo = message;
         this.isNotificationActive = true;
-        console.log("socket");
         this.showScrollToTop = false;
         this.isUserLogin = true;
         setTimeout(() => {
@@ -159,10 +172,10 @@ export class BandeauComponent implements OnInit {
     socket.on('logout', (message) => {
       this.loadUser();
       this.service.setIdentifiant(message);
-      console.log("message socket logout: "+ message);
-      console.log("identifiant socket logout : " + this.user?.identifiant);
+      
+      
       if(this.user != undefined && message !== this.user.identifiant){
-        console.log("socket");
+        this.messageInfo = message;
         this.isNotificationActive = true;
         this.showScrollToTop = false;
         this.isLogout = true;
@@ -177,7 +190,7 @@ export class BandeauComponent implements OnInit {
       this.loadUser();
       
       if(this.user != undefined && message !== this.user.identifiant){
-        console.log("socket");
+        this.messageInfo = message;
         this.isNotificationActive = true;
         this.showScrollToTop = false;
         this.isPostLike = true;
@@ -192,7 +205,7 @@ export class BandeauComponent implements OnInit {
       this.loadUser();
       if(this.user != undefined && message !== this.user.identifiant){
         this.isNotificationActive = true;
-        console.log("socket");
+        this.messageInfo = message;
         this.showScrollToTop = false;
         this.isCommentPost = true;
         setTimeout(() => {
@@ -206,13 +219,27 @@ export class BandeauComponent implements OnInit {
       this.loadUser();
       if(this.user != undefined && message !== this.user.identifiant){
         this.isNotificationActive = true;
-        console.log("socket");
+        this.messageInfo = message;
         this.showScrollToTop = false;
         this.notifyNewPost = true;
         setTimeout(() => {
           this.isNotificationActive = false;
           this.showScrollToTop = true;
           this.notifyNewPost = false;
+        }, 3000);
+      }
+    });
+    socket.on('sharePost', (message) => {
+      this.loadUser();
+      if(this.user != undefined && message !== this.user.identifiant){
+        this.isNotificationActive = true;
+        this.messageInfo = message;
+        this.showScrollToTop = false;
+        this.notifyPostWasShared = true;
+        setTimeout(() => {
+          this.isNotificationActive = false;
+          this.showScrollToTop = true;
+          this.notifyPostWasShared = false;
         }, 3000);
       }
     });

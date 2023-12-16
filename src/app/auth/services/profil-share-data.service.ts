@@ -4,7 +4,7 @@ import { BehaviorSubject,Observable, Subject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class UserShareService {
+export class ProfiLShareDataService {
   
   private formSubmitSubject = new Subject<void>();
 

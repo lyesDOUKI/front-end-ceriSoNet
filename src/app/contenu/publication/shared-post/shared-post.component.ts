@@ -9,6 +9,6 @@ import { PublicationService } from '../../services/publication.service';
 })
 export class SharedPostComponent {
 
-  @Input('sharedPost') sharedPost !: Publication;
+  @Input('sharedPost') sharedPost : Publication | undefined;
   
 }

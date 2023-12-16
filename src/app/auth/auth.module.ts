@@ -5,7 +5,7 @@ import {FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { UserComponent } from './user/user.component';
+import { ProfilComponent } from './profil/profil.component';
 import { BandeauComponent } from '../bandeau/bandeau.component';
 import { UsersOnlineComponent } from './users-online/users-online.component';
 import { CommunService } from '../commun.service';
@@ -13,7 +13,7 @@ import { CommunService } from '../commun.service';
 @NgModule({
   declarations: [
     LoginComponent,
-    UserComponent,
+    ProfilComponent,
     BandeauComponent,
     UsersOnlineComponent,
   ],
@@ -26,7 +26,7 @@ import { CommunService } from '../commun.service';
   ],
   exports : [
     LoginComponent,
-    UserComponent,
+    ProfilComponent,
     BandeauComponent,
     UsersOnlineComponent
   ],
