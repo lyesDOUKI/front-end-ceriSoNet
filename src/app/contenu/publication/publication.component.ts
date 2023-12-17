@@ -159,6 +159,9 @@ export class PublicationComponent {
     this.listPublications?.forEach((publication) => {
       publication.comments.forEach((comment) => {
         const user = this.listUsers?.find((user) => {
+          if (typeof comment.commentedBy !== 'number') {
+            comment.commentedBy = Number(comment.commentedBy);
+          } 
           return user.id === comment.commentedBy;
         });
         if (user) {
