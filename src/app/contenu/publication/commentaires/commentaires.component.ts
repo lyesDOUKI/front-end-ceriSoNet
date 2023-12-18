@@ -66,6 +66,9 @@ export class CommentairesComponent {
   updateComments(post : Publication) : void{
     post.comments.forEach((comment) => {
       const user = this.users?.find((user) => {
+        if (typeof comment.commentedBy !== 'number') {
+          comment.commentedBy = Number(comment.commentedBy);
+        } 
         return user.id === comment.commentedBy;
       });
       if (user) {
